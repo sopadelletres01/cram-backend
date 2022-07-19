@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/usuarios HTTP/1.1
+content-type: application/json;charset=UTF-8
+
+
+{
+    "nombre":"cristina",
+    "apellidos":"aran",
+    "password":"prueba",
+    "email":"prueba@gmail.com",
+    "fecha_nacimiento":"1942/04/02",
+    "dni":"1414234C",
+    "rol_id":1,
+    "avatar_id":1
+}
+###
+
+GET http://localhost:8080/api/usuarios HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/usuarios/1 HTTP/1.1

@@ -1,0 +1,38 @@
+POST http://localhost:8080/api/auth/login HTTP/1.1
+content-type: application/json;charset=UTF-8
+
+
+{"email":"marcportero01@gmail.com","password":"Cram123."}
+
+###
+POST http://localhost:8080/api/auth/logout HTTP/1.1
+content-type: application/json;charset=UTF-8
+
+
+###
+POST http://localhost:8080/api/auth/register HTTP/1.1
+content-type: application/json;charset=UTF-8
+
+{
+    "nombre":"cris",
+    "password":"cris1234",
+    "rep_password":"cris1234",
+    "email":"marcportero01@gmail.com",
+    "rol_id":1,
+    "avatar_id":1
+}
+###
+//GET /roles
+GET http://localhost:8080/api/roles HTTP/1.1
+
+###
+//GET /roles/1
+GET http://localhost:8080/api/roles/1 HTTP/1.1
+
+###
+//PUT /roles/1
+PUT http://localhost:8080/api/roles/1 HTTP/1.1
+
+###
+//DELETE /roles/1
+GET http://localhost:8080/api/roles/1 HTTP/1.1
