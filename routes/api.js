@@ -51,20 +51,7 @@ router.apiResource = function(resource,controller,middleware=null) {
     router.delete(uriRUD, controller.destroy || ErrorCtrl.error404)    
 }
 
-//Auth
 
-router.post(
-    "/auth/register",
-    AuthCtrl.signup
-);
-
-router.post("/auth/login", AuthCtrl.signin);
-router.post("/auth/logout", AuthCtrl.signout);
-
-router.get('/confirmation/:email/:token',AuthCtrl.confirmEmail)
-router.post('/resend/:email',AuthCtrl.resendLink)
-router.post('/forgot',AuthCtrl.forgotEmail)
-router.post('/reset',AuthCtrl.resetPassword)
 
 
 

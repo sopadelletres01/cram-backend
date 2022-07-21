@@ -1,12 +1,10 @@
 const {Sequelize,sequelize} = require("../models/db");
 const {User,Token, Rol, Usu_comercio} = require("../models");
-const config = require("../config/auth");
 const smtpTransport = require("../config/mail")
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
 const bcrypt = require("bcryptjs");
-const Usuario = require("../models/Usuario");
-const Op = Sequelize.Op;
+
 
 async function generateToken(usuario){
   // generate token and save
@@ -18,6 +16,8 @@ async function generateToken(usuario){
   return token
 }
 
+
+// HAY QUE REFACTORIZA ❌❌❌❌❌❌❌❌❌❌❌❌
 async function sendVerificationMail(req,res,usuario,token,type="account"){
   // Send email (use credintials of SendGrid)
   if ( !usuario ) throw new Error("QUe usuario ni que usuario")
@@ -57,7 +57,7 @@ exports.signup = async (req, res) => {
   // Save User to Database
   try {
     const user = await User.findOne({where:{dni:req.body.dni}})
-
+    // USUARIO CON CSV
     if ( user.password !== null ) {
       return res.status(400).send({message:"El usuario con este dni ya esta registrado en nuestra aplicacion..."})
     }
@@ -82,7 +82,7 @@ exports.signup = async (req, res) => {
     if ( !user ) throw new Error("No se ha podido crear el usuario")
     let tokenObject = await generateToken(user)
     await sendVerificationMail(req,res,user,tokenObject)
-    if (user) res.status(201).send({ message: "User registered successfully!" });
+    if (user) res.status(201).send({ user: user, message: "User registered successfully!" });
   } catch (error) {
     res.status(500).send({ message: error });
   }
@@ -110,55 +110,22 @@ exports.signin = async (req, res) => {
         message: "Invalid Password!",
       });
     }
-    if (!usuario.token_activado){
+    if (!usuario.isVerified){
       return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
     } 
-    const token = jwt.sign({ id: usuario.id }, config.secret, {
-      expiresIn: 86400, // 24 hours
-    });
-    console.log("TOKEN",token)
-
-    let comercio_usu = await Usu_comercio.findOne({where:{usuario_id:usuario.id}})
-    console.log("USUARIO",usuario)
-    console.log("COMERCIO USU",comercio_usu)
-
-    let usuarioData = {
-      id: usuario.id,
-      nombre: usuario.nombre,
-      email: usuario.email,
-      rol: usuario.rol_id ?? 1,
-      token:token,
-      token_activado: usuario.token_activado ?? null,
-      avatar_src:usuario.avatar_src,
-      comercio_id:comercio_usu?.comercio_id ?? null
-    }
-    req.session.user = usuarioData;
+    // -----cambiadooooooo--------
+    
+    const payload = { id:usuario.id, email:usuario.email, isVerified:true};
+    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: '6h' })
+    console.log("TOKEN", authToken)
+   
+				res.status(200).json({ authToken: authToken });
     /*let authorities = [];
     const roles = await usuario.getRoles();
     for (let i = 0; i < roles.length; i++) {
       authorities.push("ROLE_" + roles[i].name.toUpperCase());
     } */
-    console.log("ROL",usuario.rol)
-    return res.status(200).send({
-      data:{
-        id: usuario.id,
-        nombre: usuario.nombre,
-        email: usuario.email,
-        rol: usuario.rol_id ?? 1,
-        apellidos: usuario.apellidos ?? null,
-        localidad: usuario.localidad ?? null,
-        fecha_nacimiento: usuario.fecha_nacimiento ?? null,
-        codigo_postal:usuario.codigo_postal ?? null,
-        comercio_id:comercio_usu?.comercio_id ?? null,
-        dni: usuario.dni ?? null,
-        telefono: usuario.telefono ?? null,
-        avatar_src: usuario.avatar_src ?? null,
-        token_activado: usuario.token_activado ?? null,
-      },
-      auth: true,
-      token:token,
-      //roles: authorities,
-    });
+    
   } catch (error) {
     return res.status(500).send({ auth: false, message: error.message });
   }
