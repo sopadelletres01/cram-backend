@@ -1,5 +1,4 @@
 // We reuse this import in order to have access to the `body` property in requests
-require('./database')
 const express = require("express");
 
 // ℹ️ Responsible for the messages you see in the terminal as requests are coming in

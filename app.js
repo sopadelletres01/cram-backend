@@ -24,7 +24,7 @@ app.use('/test',test)
   const api = require('./routes/api')
 //app.use('/api', api, authJwt.verifyToken) NECESARIO PARA TODAS LAS RUTAS (VERIFICA QUE EL USUARIO PROVIENE DEL LOGIN DE NUESTRA APP)
 app.use('/api',isAuthenticated, api)
-app.use('/auth',authRoutes )
+app.use('/api/auth',authRoutes )
 //Verify authJWT
 
 // set port, listen for requests

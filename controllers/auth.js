@@ -74,7 +74,7 @@ exports.signup = async (req, res) => {
 
     const usuario = await user.update({
         password: bcrypt.hashSync(req.body.password, 8),
-        token_activado:0
+        isVerified:0
     });
     
     console.log("updatedUser",usuario)
@@ -114,9 +114,9 @@ exports.signin = async (req, res) => {
       return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
     } 
     // -----cambiadooooooo--------
-    
+    const {remember} = req.body
     const payload = { id:usuario.id, email:usuario.email, isVerified:true};
-    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: '6h' })
+    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: remember ? '24h' : '6h' })
     console.log("TOKEN", authToken)
    
 				res.status(200).json({ authToken: authToken });
@@ -132,7 +132,6 @@ exports.signin = async (req, res) => {
 };
 exports.signout = async (req, res) => {
   try {
-    req.session = null;
     return res.status(200).send({
       message: "You've been signed out!"
     });
@@ -199,7 +198,7 @@ exports.confirmEmail = async (req, res) => {
             return res.status(401).send({ msg: 'We were unable to find a user for this verification. Please SignUp!' });
         }
         // user is already verified
-        else if (user.token_activado) {
+        else if (user.isVerified) {
             return res.status(200).send('User has been already verified. Please Login');
         }
         // verify user
@@ -209,7 +208,7 @@ exports.confirmEmail = async (req, res) => {
             try{
                 //await token.destroy()
                 await user.update( 
-                    {token_activado:1}
+                    {isVerified:1}
                 )
                 return res.status(200).send('Your account has been successfully verified');
             }
@@ -227,7 +226,7 @@ exports.resendLink = async (req, res, next) => {
         return res.status(400).send({msg:'We were unable to find a user with that email. Make sure your Email is correct!'});
     }
     // user has been already verified
-    else if (user.token_activado){
+    else if (user.isVerified){
         return res.status(200).send('This account has been already verified. Please log in.');
     } 
     // send verification link
