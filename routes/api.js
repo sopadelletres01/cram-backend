@@ -50,11 +50,6 @@ router.apiResource = function(resource,controller,middleware=null) {
     router.put(uriRUD, controller.update || ErrorCtrl.error404)
     router.delete(uriRUD, controller.destroy || ErrorCtrl.error404)    
 }
-
-
-
-
-
 // CRUD products
 /* router.put('/eventos/:id',EventCtrl.update)
 router.put('/eventos/:id',EventCtrl.update)
