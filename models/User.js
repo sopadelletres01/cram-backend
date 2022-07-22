@@ -91,7 +91,7 @@ const User = sequelize.define(
     
   },
   {
-    timestamps: true,
+    timestamps: false,
   }
   );
 //   User.getInscripciones = async function (req) {

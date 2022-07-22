@@ -8,10 +8,18 @@ const bcrypt = require("bcryptjs");
 
 async function generateToken(idUser){
   // generate token and save
-  let token = await Token.findOne({where:{ idUser}});
-  if(!token) token = await Token.create({ token: crypto.randomBytes(16).toString('hex'), idUser, expire_date: Date.now() + 3600});
-  
-  console.log("token",token.token)
+  const genToken = crypto.randomBytes(16).toString('hex')
+  console.log("genToken",genToken)
+  let token = await Token.findOne({where:{ idUser: idUser}});
+  if(token) {
+    const tokenUpdated = await Token.update({token:genToken},{where:{idUser:idUser},returning:true})
+    token = await Token.findOne({where:{ idUser: idUser}});
+
+    console.log("tokenUpdated",token)
+  } else {
+    token = await Token.create({ token: genToken , idUser:idUser, expire_date: Date.now() + 3600});
+    console.log("tokenCreated",token.token)
+  }
   if (!token){
     throw new Error("El token no se pudo crear correctamente...")
   }
@@ -55,8 +63,10 @@ exports.signup = async (req, res) => {
   // Save User to Database
   try {
     const user = await User.findOne({where:{dni:req.body.dni}})
+    console.log("USER",user)
     // USUARIO CON CSV
-    if ( user.password !== null ) {
+    if(!user) return res.status(403).send({message:"User with dni not found"})
+    if ( user.password  ) {
       return res.status(400).send({message:"El user con este dni ya esta registrado en nuestra aplicacion..."})
     }
 
@@ -78,8 +88,8 @@ exports.signup = async (req, res) => {
     console.log("updatedUser",updatedUser)
 
     if ( !user ) throw new Error("No se ha podido crear el user")
-    let tokenObject = await generateToken(user)
-    await sendVerificationMail(req,res,user,tokenObject)
+    let tokenObject = await generateToken(user.id)
+    await sendVerificationMail(req,res,user,tokenObject.token)
     if (user) res.status(201).send({ user: user, message: "User registered successfully!" });
   } catch (error) {
     res.status(500).send({ message: error });
@@ -87,7 +97,7 @@ exports.signup = async (req, res) => {
 };
 exports.signin = async (req, res) => {
   try {
-    return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
+    // return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
 
     /* if ( req.session.user ){
       return res.send({auth: true, user: req.session.user})
@@ -147,7 +157,7 @@ exports.forgotEmail = async (req, res) => {
     if (!user)
         return res.status(400).send("user with given email doesn't exist");
 
-    const token = await generateToken(user)
+    const token = await generateToken(user.id)
     await sendVerificationMail(req,res,user,token.token,"forgot")
 
   } catch (e) {
@@ -184,7 +194,7 @@ exports.resetPassword = async (req, res) => {
 };
 exports.confirmEmail = async (req, res) => {
   // return res.status(200).send('Your account has been successfully verified');
-
+    console.log(req.params)
     const token = await Token.findOne({ where: { token: req.params.token } })
     // token is not found into database i.e. token may have expired 
     if (!token) {
@@ -221,7 +231,7 @@ exports.confirmEmail = async (req, res) => {
 }
 
 exports.resendLink = async (req, res, next) => {
-  const userr = {
+  /* const userr = {
     id: 1,
     name:"Ozark",
     email:req.params.email,
@@ -229,7 +239,7 @@ exports.resendLink = async (req, res, next) => {
   let tokenObject = await generateToken(14)
 
   await sendVerificationMail(req,res,userr,tokenObject.token)
-return res.status(200)
+return res.status(200) */
     const user = await User.findOne({where: {email: req.params.email }})
     // user is not found into database
     if (!user){
@@ -243,7 +253,7 @@ return res.status(200)
     // generate token and save
     try{
         // Send email (use credintials of SendGrid)
-        let tokenObject = await generateToken(user)
+        let tokenObject = await generateToken(user.id)
         await sendVerificationMail(req,res,user,tokenObject.token)
     }
     catch(e){
