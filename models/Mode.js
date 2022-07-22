@@ -25,4 +25,8 @@ const Mode = sequelize.define('Mode',
                 min:1
             }
         }
+    }
+    , {
+        timestamps: true,
+        freezeTableName: true,
     })

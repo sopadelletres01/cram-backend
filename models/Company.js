@@ -20,5 +20,8 @@ const Company = sequelize.define('companies',
             type: Sequelize.INTEGER,
             allowNull:false,
         }
+    }, {
+        timestamps: true,
+        freezeTableName: true,
     })
 module.exports = Company;

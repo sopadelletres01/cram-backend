@@ -13,6 +13,7 @@ const Activity = sequelize.define('activities',
       allowNull: false,
     }
   }, {
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true,
 }
 )

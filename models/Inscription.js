@@ -23,6 +23,7 @@ const Inscription = sequelize.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
   }
 );
 module.exports = Inscription;

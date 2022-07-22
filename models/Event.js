@@ -58,6 +58,7 @@ const Event = sequelize.define(
   },
   {
     timestamps: true,
+    freezeTableName: true,
   }
 );
 // Event.getEventosCurrent=async function(req){

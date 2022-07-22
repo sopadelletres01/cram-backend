@@ -2,7 +2,7 @@
 const { sequelize, Sequelize } = require("./db");
 
 const Promotion = sequelize.define(
-  "promociones",
+  "promotions",
   {
     id: {
       type: Sequelize.INTEGER,

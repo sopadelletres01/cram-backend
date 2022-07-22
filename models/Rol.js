@@ -14,14 +14,14 @@ const {sequelize, Sequelize}= require('./db')
     freezeTableName: true,
   });
 
-  Rol.findByName = async function(name) {
-    return await this.findOne({
-      where: {
-          nombre: {
-            [Sequelize.Op.eq]: name,
-          },
-      }
-    });
-  };
+  // Rol.findByName = async function(name) {
+  //   return await this.findOne({
+  //     where: {
+  //         nombre: {
+  //           [Sequelize.Op.eq]: name,
+  //         },
+  //     }
+  //   });
+  // };
 
   module.exports= Rol;

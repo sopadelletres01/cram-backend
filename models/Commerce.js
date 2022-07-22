@@ -25,8 +25,7 @@ const Commerce = sequelize.define(
     phone: {
       type: Sequelize.STRING,
       validate: {
-        min: "9",
-        max: "9",
+        len:[9,11],
       },
       allowNull: false,
     },
@@ -55,7 +54,8 @@ const Commerce = sequelize.define(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
+    freezeTableName: true,
   }
 );
 
