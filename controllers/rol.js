@@ -1,6 +1,6 @@
 const {Sequelize,sequelize} = require("../models/db");
-const { Rol} = require("../models");
-const Op = Sequelize.Op;
+const {Rol} = require("../models");
+
 // Create and Save a new Rol
 // Retrieve all Roles from the database.
 exports.index = async (req, res) => {

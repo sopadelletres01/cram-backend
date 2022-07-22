@@ -1,6 +1,6 @@
 const { Sequelize, sequelize } = require("../models/db");
 const { Inscription } = require("../models");
-const Op = Sequelize.Op;
+
 
 exports.index = async (req, res) => {
   console.log("query", req.query);
