@@ -1,6 +1,6 @@
 const { sequelize, Sequelize } = require("./db");
 const Inscription = sequelize.define(
-  "inscripcions",
+  "inscriptions",
   {
     id: {
       type: Sequelize.INTEGER,

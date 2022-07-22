@@ -1,7 +1,7 @@
 /* Modelo */
 const { sequelize, Sequelize } = require("./db");
 const Event = sequelize.define(
-  "event",
+  "events",
   {
     id: {
       type: Sequelize.INTEGER,

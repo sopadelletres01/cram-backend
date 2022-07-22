@@ -1,5 +1,5 @@
 const { sequelize, Sequelize } = require('./db')
-const Mode = sequelize.define('Mode',
+const Mode = sequelize.define('modes',
     {
         id: {
             type: Sequelize.INTEGER,

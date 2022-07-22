@@ -1,6 +1,6 @@
 const {sequelize, Sequelize}= require('./db')
 
-  const Rol = sequelize.define("roles", {
+  const Rol = sequelize.define("rols", {
     id:{
       type: Sequelize.INTEGER,
       primaryKey: true,

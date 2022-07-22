@@ -1,7 +1,7 @@
 /* Modelo */
 const { sequelize, Sequelize } = require("./db");
 const Commerce = sequelize.define(
-  "commerce",
+  "commerces",
   {
     id: {
       type: Sequelize.INTEGER,
