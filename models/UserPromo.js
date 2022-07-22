@@ -35,4 +35,4 @@ const User_Promo=sequelize.define('user_promo',{
     //            console.log(e)
     //        }
     // }
-    module.exports = UserPromo;
+    module.exports = User_Promo;

@@ -1,5 +1,5 @@
 const { sequelize, Sequelize } = require('./db')
-const Province = require("provinces",
+const Province = sequelize.define("provinces",
     {
         id: {
             type: Sequelize.INTEGER,
@@ -12,8 +12,10 @@ const Province = require("provinces",
         },
         idComunity: {
             type: Sequelize.INTEGER,
-            allowNull:false
-        }
-
+            allowNull: false
+        },
+    }, {
+        timestamps:false,
+        freezeTableName: true,
     })
 module.exports = Province;

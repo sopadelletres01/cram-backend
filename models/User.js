@@ -65,7 +65,7 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
       validate: {
-        is:/^(? =. * [0-9]) (? =. * [az]) (? =. * [AZ]) (? =. * [@ # $% ^ & - + =() ]) (? = \\ S + $). {8, 20}$/i,
+        is:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
       }
     },
     dni: {

@@ -1,6 +1,5 @@
 const { sequelize, Sequelize } = require("./db");
-const Inscription = sequelize.define(
-  "inscriptions",
+const Inscription = sequelize.define("inscriptions",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -12,17 +11,14 @@ const Inscription = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    createdAt: {
-      type: Sequelize.timestamps,
-      allowNull: false,
-    },
+
     idMode: {
       type: Sequelize.INTEGER,
       allowNull: false,
     }
   },
   {
-    timestamps: false,
+    timestamps: true,
     freezeTableName: true,
   }
 );
