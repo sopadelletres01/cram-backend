@@ -2,11 +2,11 @@
 
 /* Controlador */
 
-const {Comercio } = require("../models");
+const { Commerce } = require("../models");
 
-/* Comercio.getEventos(4) */
-exports.index=async( req, res)=>{
-    /* selectByFk(req,res,Evento,"comercio_id","evento_id") */
-    models = await Comercio.getEventos(req.params.id);
-    res.send(models);
+/* Commerce.getEventos(4) */
+exports.index = async (req, res) => {
+  /* selectByFk(req,res,Event,"comercio_id","evento_id") */
+  models = await Commerce.getEventos(req.params.id);
+  res.send(models);
 };
