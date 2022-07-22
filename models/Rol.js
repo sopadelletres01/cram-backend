@@ -6,8 +6,11 @@ const {sequelize, Sequelize}= require('./db')
       primaryKey: true,
       autoIncrement:true
     },
-    nombre: {
+    name: {
       type: Sequelize.STRING,
+      validate: {
+        isin:[['participant','owner','admin']],
+      }
     },
   },{
     timestamps: false,
