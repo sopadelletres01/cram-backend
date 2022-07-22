@@ -19,7 +19,7 @@ exports.promos = async (req, res) => {
 };
 exports.search = async (req, res) => {
   try {
-    const comercio = await Commerce.searchComercio(req.params.nif);
+    const comercio = await Commerce.searchComercio(req.params.cif);
     console.log(comercio);
     res.status(200).send(comercio);
   } catch (error) {
@@ -44,7 +44,7 @@ exports.store = async (req, res, next) => {
     let imagen = await uploadFile(req, res, next);
     console.log("imagen", imagen);
 
-    const comercio = await Commerce.create({ ...req.body, src: imagen.url });
+    const comercio = await Commerce.create({ ...req.body, photo: imagen.url });
     console.log(comercio);
 
     res.status(200).send(comercio);
