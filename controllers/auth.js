@@ -6,10 +6,10 @@ const crypto = require('crypto');
 const bcrypt = require("bcryptjs");
 
 
-async function generateToken(user){
+async function generateToken(idUser){
   // generate token and save
-  let token = await Token.findOne({where:{ idUser: user.id }});
-  if(!token) token = await Token.create({ token: crypto.randomBytes(16).toString('hex'), idUser: user.id, fecha_expiracion: Date.now() + 3600});
+  let token = await Token.findOne({where:{ idUser}});
+  if(!token) token = await Token.create({ token: crypto.randomBytes(16).toString('hex'), idUser, expire_date: Date.now() + 3600});
   
   console.log("token",token.token)
   if (!token){
@@ -183,7 +183,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 exports.confirmEmail = async (req, res) => {
-  return res.status(200).send('Your account has been successfully verified');
+  // return res.status(200).send('Your account has been successfully verified');
 
     const token = await Token.findOne({ where: { token: req.params.token } })
     // token is not found into database i.e. token may have expired 
@@ -226,7 +226,9 @@ exports.resendLink = async (req, res, next) => {
     name:"Ozark",
     email:req.params.email,
   }
-  await sendVerificationMail(req,res,userr,"12424124sasfa")
+  let tokenObject = await generateToken(14)
+
+  await sendVerificationMail(req,res,userr,tokenObject.token)
 return res.status(200)
     const user = await User.findOne({where: {email: req.params.email }})
     // user is not found into database
