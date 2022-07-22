@@ -23,8 +23,10 @@ app.use('/test',test)
   // App routes - API
   const api = require('./routes/api')
 //app.use('/api', api, authJwt.verifyToken) NECESARIO PARA TODAS LAS RUTAS (VERIFICA QUE EL USUARIO PROVIENE DEL LOGIN DE NUESTRA APP)
-app.use('/api',isAuthenticated, api)
+//El orden en el que pongas los app.use importa:
+//Si cambias el orden y se llama al /api antes que al /api/auth, todas las rutas usan el middleware isAuthenticated y no podremos hacer login ni register
 app.use('/api/auth',authRoutes )
+app.use('/api',isAuthenticated, api)
 //Verify authJWT
 
 // set port, listen for requests

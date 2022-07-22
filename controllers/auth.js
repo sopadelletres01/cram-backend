@@ -6,9 +6,11 @@ const crypto = require('crypto');
 const bcrypt = require("bcryptjs");
 
 
-async function generateToken(usuario){
+async function generateToken(user){
   // generate token and save
-  var token = await Token.create({ token: crypto.randomBytes(16).toString('hex'), usuario_id: usuario.id, fecha_expiracion: Date.now() + 3600});
+  let token = await Token.findOne({where:{ idUser: user.id }});
+  if(!token) token = await Token.create({ token: crypto.randomBytes(16).toString('hex'), idUser: user.id, fecha_expiracion: Date.now() + 3600});
+  
   console.log("token",token.token)
   if (!token){
     throw new Error("El token no se pudo crear correctamente...")
@@ -18,38 +20,34 @@ async function generateToken(usuario){
 
 
 // HAY QUE REFACTORIZA ❌❌❌❌❌❌❌❌❌❌❌❌
-async function sendVerificationMail(req,res,usuario,token,type="account"){
+async function sendVerificationMail(req,res,user,token,type="account"){
   // Send email (use credintials of SendGrid)
-  if ( !usuario ) throw new Error("QUe usuario ni que usuario")
+  if ( !user ) throw new Error("QUe user ni que user")
+  const isAccountType = type === "account"
+  const uri = `${isAccountType ? `confirmation/${user.email}/${token}` : `forgot/reset/${user.id}/${token}`}`
+  const url = `http://${req.headers.host}/api/auth/${uri}`
+  const mailOptions = {
+    from: process.env.EMAIL_USER || 'cram.testing@gmail.com', 
+    to: user.email, 
+    subject: isAccountType ? 'Account Verification Link' : 'Password reset link' ,
+    text: `Hello ${user.name} \n\n
+    Please ${isAccountType ? "verify your account" : "reset your password" } by clicking the link: 
+    ${url}\n\n
+    Thank You!!
+    `
+  }
+  console.log("uri",uri)
+  console.log("url",url)
+  console.log("mailOptions",mailOptions)
   console.log("TOKEN",token)
-  if ( type==="account" ){
-    var mailOptions = { 
-      from: 'cram.testing@gmail.com', 
-      to: usuario.email, 
-      subject: 'Account Verification Link',
-      text: 'Hello '+ usuario.nombre +',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/' + '\/confirmation\/' + usuario.email + '\/' + token.token + '\n\nThank You!\n' 
-    };
-    smtpTransport.sendMail(mailOptions, function (err) {
-      if (err) { 
-        return res.status(500).send({msg:'Technical Issue!, Please click on resend for verify your Email.'});
-      }
-      return res.status(200).send('A verification email has been sent to ' + usuario.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
-    });
-  }
-  if ( type==="forgot" ){
-    var mailOptions = { 
-      from: 'cram.testing@gmail.com', 
-      to: usuario.email, 
-      subject: 'Password reset link',
-      text: 'Hello '+ usuario.nombre +',\n\n' + 'Please reset your password by clicking the link: \nhttp:\/\/' + "65.108.245.5" +  '\/forgot' + '\/' + 'reset\/' + usuario.id + '\/' + token.token + '\n\nThank You!\n' 
-    };
-    smtpTransport.sendMail(mailOptions, function (err) {
-      if (err) { 
-        return res.status(500).send({msg:'Technical Issue!, Please click on resend for resetting your password.'});
-      }
-      return res.status(200).send('A password reset email has been sent to ' + usuario.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
-    });
-  }
+  smtpTransport.sendMail(mailOptions, function (err) {
+    if (err) { 
+      return res.status(500).send({msg:'Technical Issue!, Please click on resend for verify your Email.'});
+    }
+    return res.status(200).send('A verification email has been sent to ' + user.email + '. It will be expire after one day. If you not get verification Email click on resend token.');
+  });
+  return
+  
 }
 
 
@@ -59,7 +57,7 @@ exports.signup = async (req, res) => {
     const user = await User.findOne({where:{dni:req.body.dni}})
     // USUARIO CON CSV
     if ( user.password !== null ) {
-      return res.status(400).send({message:"El usuario con este dni ya esta registrado en nuestra aplicacion..."})
+      return res.status(400).send({message:"El user con este dni ya esta registrado en nuestra aplicacion..."})
     }
 
     const passwordIsValid = req.body.password===req.body.rep_password
@@ -72,14 +70,14 @@ exports.signup = async (req, res) => {
       return res.status(404).send({message:"No user with matching dni was found"})
     }
 
-    const usuario = await user.update({
+    const updatedUser = await user.update({
         password: bcrypt.hashSync(req.body.password, 8),
         isVerified:0
     });
     
-    console.log("updatedUser",usuario)
+    console.log("updatedUser",updatedUser)
 
-    if ( !user ) throw new Error("No se ha podido crear el usuario")
+    if ( !user ) throw new Error("No se ha podido crear el user")
     let tokenObject = await generateToken(user)
     await sendVerificationMail(req,res,user,tokenObject)
     if (user) res.status(201).send({ user: user, message: "User registered successfully!" });
@@ -89,20 +87,23 @@ exports.signup = async (req, res) => {
 };
 exports.signin = async (req, res) => {
   try {
+    return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
+
     /* if ( req.session.user ){
       return res.send({auth: true, user: req.session.user})
     } */
-    const usuario = await User.findOne({
+    const user = await User.findOne({
       where: {
         email: req.body.email,
       },
     });
-    if (!usuario) {
+    console.log("USer",user)
+    if (!user) {
       return res.status(404).send({ auth: false, message: "User Not found." });
     }
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
-      usuario.password
+      user.password
     );
     if (!passwordIsValid) {
       return res.status(403).send({
@@ -110,23 +111,24 @@ exports.signin = async (req, res) => {
         message: "Invalid Password!",
       });
     }
-    if (!usuario.isVerified){
+    if (!user.isVerified){
       return res.status(401).send({auth: false,message:'Your Email has not been verified. Please click on resend'});
     } 
     // -----cambiadooooooo--------
     const {remember} = req.body
-    const payload = { id:usuario.id, email:usuario.email, isVerified:true};
+    const payload = { id:user.id, email:user.email, isVerified:true};
     const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: remember ? '24h' : '6h' })
     console.log("TOKEN", authToken)
    
 				res.status(200).json({ authToken: authToken });
     /*let authorities = [];
-    const roles = await usuario.getRoles();
+    const roles = await user.getRoles();
     for (let i = 0; i < roles.length; i++) {
       authorities.push("ROLE_" + roles[i].name.toUpperCase());
     } */
     
   } catch (error) {
+    console.log("ERORR",error)
     return res.status(500).send({ auth: false, message: error.message });
   }
 };
@@ -145,11 +147,8 @@ exports.forgotEmail = async (req, res) => {
     if (!user)
         return res.status(400).send("user with given email doesn't exist");
 
-    let token = await Token.findOne({where:{ usuario_id: user.id }});
-    if (!token) {
-        token = await generateToken(user)
-    }
-    await sendVerificationMail(req,res,user,token,"forgot")
+    const token = await generateToken(user)
+    await sendVerificationMail(req,res,user,token.token,"forgot")
 
   } catch (e) {
     console.log(e);
@@ -165,7 +164,7 @@ exports.resetPassword = async (req, res) => {
     }
     console.log("TOKEN",token)
 
-    let tokenToFind = await Token.findOne({where:{ token: token, usuario_id: id }});
+    let tokenToFind = await Token.findOne({where:{ token: token, idUser: id }});
     console.log("TOKEN",tokenToFind.token)
     if (!tokenToFind) {
       return res.status(400).send("The token is invalid");
@@ -184,6 +183,8 @@ exports.resetPassword = async (req, res) => {
   }
 };
 exports.confirmEmail = async (req, res) => {
+  return res.status(200).send('Your account has been successfully verified');
+
     const token = await Token.findOne({ where: { token: req.params.token } })
     // token is not found into database i.e. token may have expired 
     if (!token) {
@@ -191,7 +192,7 @@ exports.confirmEmail = async (req, res) => {
     }
     // if token is found then check valid user 
     else {
-        const user = await User.findByPk(token.usuario_id)
+        const user = await User.findByPk(token.idUser)
         // not valid user
         console.log("USER ",user)
         if (!user) {
@@ -206,7 +207,7 @@ exports.confirmEmail = async (req, res) => {
             // change isVerified to true
             // destroy verification token ?
             try{
-                //await token.destroy()
+                await token.destroy()
                 await user.update( 
                     {isVerified:1}
                 )
@@ -220,6 +221,13 @@ exports.confirmEmail = async (req, res) => {
 }
 
 exports.resendLink = async (req, res, next) => {
+  const userr = {
+    id: 1,
+    name:"Ozark",
+    email:req.params.email,
+  }
+  await sendVerificationMail(req,res,userr,"12424124sasfa")
+return res.status(200)
     const user = await User.findOne({where: {email: req.params.email }})
     // user is not found into database
     if (!user){
@@ -234,7 +242,7 @@ exports.resendLink = async (req, res, next) => {
     try{
         // Send email (use credintials of SendGrid)
         let tokenObject = await generateToken(user)
-        await sendVerificationMail(req,res,user,tokenObject)
+        await sendVerificationMail(req,res,user,tokenObject.token)
     }
     catch(e){
         return res.status(500).send({msg:e.message});
