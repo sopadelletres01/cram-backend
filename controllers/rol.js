@@ -1,5 +1,5 @@
 const {Sequelize,sequelize} = require("../models/db");
-const {User,Token, Rol} = require("../models");
+const { Rol} = require("../models");
 const Op = Sequelize.Op;
 // Create and Save a new Rol
 // Retrieve all Roles from the database.

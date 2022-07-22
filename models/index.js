@@ -1,13 +1,13 @@
 module.exports = {
-  User: require("./Usuario.js"),
+  User: require("./User.js"),
   Token: require("./Token.js"),
   Rol: require("./Rol.js"),
-  Evento: require("./Evento.js"),
-  Comercio: require("./Comercio.js"),
-  Promocion: require("./Promocion.js"),
+  Event: require("./Event.js"),
+  Commerce: require("./Commerce.js"),
+  Promotion: require("./Promotion.js"),
   Extra: require("./extra.js"),
-  Inscripcion: require("./Inscripciones.js"),
-  Categorias:require('./Categorias.js'),
-  Usu_comercio:require('./Usuario_Comercio.js'),
-  UserPromo:require('./UserPromo.js')
-}
+  Inscription: require("./Inscription.js"),
+  Categorias: require("./Categorias.js"),
+  Usu_comercio: require("./Usuario_Comercio.js"),
+  UserPromo: require("./UserPromo.js"),
+};

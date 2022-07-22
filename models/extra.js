@@ -1,32 +1,29 @@
-const Usuario = require("./Usuario")
-const Comercio = require("./Comercio")
-const Promocion = require("./Promocion")
-const Evento = require("./Evento")
-const {sequelize} = require("./db")
-console.log('8=====D')
+const User = require("./User");
+const Commerce = require("./Commerce");
+const Promotion = require("./Promotion");
+const Event = require("./Event");
+const { sequelize } = require("./db");
+console.log("8=====D");
 
-// Relació Comercio - Promocion
-Comercio.hasMany(Promocion, {
-    foreignKey: 'id'
-})
-Promocion.belongsTo(Comercio, {
-    foreignKey: 'comercio_id'
-})
+// Relació Commerce - Promotion
+Commerce.hasMany(Promotion, {
+  foreignKey: "id",
+});
+Promotion.belongsTo(Commerce, {
+  foreignKey: "comercio_id",
+});
 
-// Relació Promocion - Evento
-Promocion.belongsTo(Evento, {
-    foreignKey: 'evento_id'
-})
-Evento.hasMany(Promocion, {
-    foreignKey: 'id'
-})
+// Relació Promotion - Event
+Promotion.belongsTo(Event, {
+  foreignKey: "evento_id",
+});
+Event.hasMany(Promotion, {
+  foreignKey: "id",
+});
 
+// Relació Commerce > Promotion > Event
+// Commerce.belongsToMany(Event, { through: Promotion })
+// Event.belongsToMany(Commerce, { through: Promotion })
 
-// Relació Comercio > Promocion > Evento
-// Comercio.belongsToMany(Evento, { through: Promocion })
-// Evento.belongsToMany(Comercio, { through: Promocion })
-
-// Relació Usuario > Inscripcion > Evento
-//Usuario.belongsToMany(Evento, { through: 'inscripciones' })
-
-
+// Relació User > Inscription > Event
+//User.belongsToMany(Event, { through: 'inscripciones' })

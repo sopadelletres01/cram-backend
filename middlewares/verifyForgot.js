@@ -1,23 +1,23 @@
 const db = require("../models");
 //const ROLES = db.rol;
-const Usuario = db.usuario;
+const User = db.usuario;
 checkEmailExists = async (req, res, next) => {
   try {
     // Email
-    usuario = await Usuario.findOne({
+    usuario = await User.findOne({
       where: {
-        email: req.body.email
-      }
+        email: req.body.email,
+      },
     });
     if (usuario) {
       return res.status(400).send({
-        message: "Failed! Email is already in use!"
+        message: "Failed! Email is already in use!",
       });
     }
     next();
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Username!"
+      message: "Unable to validate Username!",
     });
   }
 };
@@ -40,6 +40,6 @@ checkEmailExists = async (req, res, next) => {
   checkRolesExisted
 }; */
 const verifySignUp = {
-    checkDuplicateUsernameOrEmail
-}
+  checkDuplicateUsernameOrEmail,
+};
 module.exports = verifySignUp;
