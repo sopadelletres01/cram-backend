@@ -1,88 +1,71 @@
-const { Sequelize, sequelize } = require("../models/db");
-const { User, Promotion, Usu_comercio } = require("../models");
+const { Sequelize, sequelize } = require('../models/db');
+const { User, Promotion, Usu_comercio } = require('../models');
 
 const Op = Sequelize.Op;
 // Create and Save a new User
 // Retrieve all Usuarios from the database.
 exports.getPromoComerAndUser = async (req, res) => {
-  console.log("REQ", req.params.dni);
+  console.log('REQ', req.params.dni);
   try {
-    const usu_promo_comer = await User.getPromoComer(
-      req.params.dni,
-      req.params.id
-    );
+    const usu_promo_comer = await User.getPromoComer(req.params.dni, req.params.id);
     console.log(usu_promo_comer);
     res.status(200).send(usu_promo_comer);
   } catch (e) {
     res.status(500).send({
-      message: e.message || "no hemos encontrado nada con estos parametros.",
+      message: e.message || 'no hemos encontrado nada con estos parametros.',
     });
   }
 };
 
-exports.inscripcion = async (req, res) => {
+exports.inscription = async (req, res) => {
   try {
-    models = await User.getInscripciones(req);
+    models = await User.getInscriptions(req);
     res.send(models);
   } catch (error) {
     res.status(500).send({
-      message: error.message || "No hemos podido listar los usuarios",
+      message: error.message || 'No hemos podido listar los users',
     });
   }
 };
-exports.deleteInscripciones = async (req, res) => {
+exports.deleteInscriptions = async (req, res) => {
   try {
-    deleted = await User.deleteInscripcionesByUser(req);
+    deleted = await User.deleteInscriptionsByUser(req);
     console.log(deleted);
-    res
-      .status(200)
-      .send({ message: "Se han boorado las inscripciones del usuario" });
+    res.status(200).send({ message: 'Se han boorado las Inscriptions del user' });
   } catch (error) {
     res.status(500).send({
-      message:
-        error.message ||
-        "No hemos podido eliminar las inscripciones del usuario",
+      message: error.message || 'No hemos podido eliminar las Inscriptions del user',
     });
   }
 };
-exports.promocionIs = async function (req, res) {
-  try {
-    models = await User.getPromociones(req);
-    res.send(models);
-  } catch (error) {
-    res.status(500).send({
-      message: error.message || "No hemos podido listar los usuarios",
-    });
-  }
-};
-exports.promociones = async (req, res) => {
+exports.getPromotions = async (req, res) => {
   try {
     let models;
-    console.log("req", req.query);
-    if (req.query.expired === "true") {
-      models = await User.getPromocionesExpiredByUser(req);
-      console.log("Promos", models);
+    console.log('req', req.query);
+    if (req.query.expired === 'true') {
+      models = await User.getPromotionsExpiredByUser(req);
+      console.log('Promos', models);
       return res.status(200).send(models);
     }
-    models = await User.getPromociones(req);
+    models = await User.getPromotions(req);
     res.send(models);
   } catch (error) {
     res.status(500).send({
-      message: error.message || "No hemos podido listar los usuarios",
+      message: error.message || 'No hemos podido listar los users',
     });
   }
 };
 
-exports.getPromocion = async (req, res) => {
+exports.getPromotion = async (req, res) => {
   try {
     let promo = await User.getPromo(req);
-    console.log("promo", promo);
+    console.log('promo', promo);
     if (promo) {
       return res.status(200).send(promo);
     }
   } catch (error) {
     res.status(500).send({
-      message: error.message || "No hemos podido seleccionar la promocion",
+      message: error.message || 'No hemos podido seleccionar la Promotion',
     });
   }
 };
@@ -90,35 +73,33 @@ exports.getPromocion = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     if (req.query.dni) {
-      const usuario = await User.findOne({ where: { dni: req.query.dni } });
-      return res.status(200).send(usuario);
+      const user = await User.findOne({ where: { dni: req.query.dni } });
+      return res.status(200).send(user);
     }
-    const usuarios = await User.findAll();
-    res.send(usuarios);
+    const users = await User.findAll();
+    res.send(users);
   } catch (error) {
     res.status(500).send({
-      message: error.message || "No hemos podido listar los usuarios",
+      message: error.message || 'No hemos podido listar los users',
     });
   }
 };
 exports.store = async (req, res) => {
   try {
-    if (req.query.comercial === "true") {
-      const usuario = await User.create({ ...req.body, rol_id: 4 });
-      console.log("USUario", usuario);
-      return res.status(200).send(usuario);
+    if (req.query.comercial === 'true') {
+      const user = await User.create({ ...req.body, rol_id: 4 });
+      console.log('USUario', user);
+      return res.status(200).send(user);
     }
-    const usuario = await User.build(req.body);
+    const user = await User.build(req.body);
     /* probar en poner MockData.JSON */
-    const usu = await usuario.save();
-    console.log("usuariooooo", usu);
-    res.send(usuario);
+    const usu = await user.save();
+    console.log('usuariooooo', usu);
+    res.send(user);
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
     res.status(500).send({
-      message:
-        error.message ||
-        "No se ha podido crear el usuario, revisa los datos introducidos",
+      message: error.message || 'No se ha podido crear el user, revisa los datos introducidos',
     });
   }
 };
@@ -126,13 +107,11 @@ exports.store = async (req, res) => {
 exports.show = async (req, res) => {
   try {
     const id = req.params.id;
-    const usuario = await User.findByPk(id);
-    res.send(usuario);
+    const user = await User.findByPk(id);
+    res.send(user);
   } catch (error) {
     res.satus(404).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar el usuario con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar el user con el id seleccionado',
     });
   }
 };
@@ -144,39 +123,33 @@ exports.update = async (req, res) => {
     const usuarioUpdated = await user.update(req.body, {
       where: { id: id },
     });
-    console.log("usuario", usuarioUpdated);
-    res
-      .status(200)
-      .send({ message: "El usuario se ha actualizado correctamente" });
-    /*  res.send("El usuario se ha actualizado correctamente"); */
+    console.log('user', usuarioUpdated);
+    res.status(200).send({ message: 'El user se ha actualizado correctamente' });
+    /*  res.send("El user se ha actualizado correctamente"); */
   } catch (error) {
     res.status(500).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar el usuario con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar el user con el id seleccionado',
     });
   }
 };
 // Delete a User with the specified id in the request
 exports.destroy = async (req, res) => {
   const mockData = {
-    nombre: "prueba2",
-    apellidos: "pruebaApellido2",
-    password: "prueba2",
+    name: 'prueba2',
+    apellidos: 'pruebaApellido2',
+    password: 'prueba2',
   };
   try {
     const id = req.params.id;
-    const usuario = await User.destroy({
+    const user = await User.destroy({
       where: { id: id },
     });
     res.status(200).send({
-      message: "El usuario se ha eliminado correctamente",
+      message: 'El user se ha eliminado correctamente',
     });
   } catch (error) {
     res.status(500).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar el usuario con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar el user con el id seleccionado',
     });
   }
 };

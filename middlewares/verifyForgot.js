@@ -1,23 +1,23 @@
-const db = require("../models");
+const db = require('../models');
 //const ROLES = db.rol;
-const User = db.usuario;
+const User = db.user;
 checkEmailExists = async (req, res, next) => {
   try {
     // Email
-    usuario = await User.findOne({
+    user = await User.findOne({
       where: {
         email: req.body.email,
       },
     });
-    if (usuario) {
+    if (user) {
       return res.status(400).send({
-        message: "Failed! Email is already in use!",
+        message: 'Failed! Email is already in use!',
       });
     }
     next();
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Username!",
+      message: 'Unable to validate Username!',
     });
   }
 };

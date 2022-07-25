@@ -26,4 +26,4 @@
 // // Event.belongsToMany(Commerce, { through: Promotion })
 
 // // Relació User > Inscription > Event
-// //User.belongsToMany(Event, { through: 'inscripciones' })
+// //User.belongsToMany(Event, { through: 'Inscriptions' })

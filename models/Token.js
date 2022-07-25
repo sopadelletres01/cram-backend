@@ -1,7 +1,7 @@
 const { sequelize, Sequelize } = require('./db');
 
 const Token = sequelize.define(
-  'token',
+  'tokens',
   {
     token: {
       type: Sequelize.STRING,

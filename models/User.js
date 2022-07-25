@@ -1,6 +1,6 @@
-const { sequelize, Sequelize } = require("./db");
+const { sequelize, Sequelize } = require('./db');
 const User = sequelize.define(
-  "users",
+  'users',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -20,7 +20,7 @@ const User = sequelize.define(
       allowNull: true,
       validate: {
         isBefore: '2003-12-31',
-      }
+      },
     },
     email: {
       type: Sequelize.STRING,
@@ -33,8 +33,8 @@ const User = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: true,
       validate: {
-        min:9
-      }
+        min: 9,
+      },
     },
     adress: {
       type: Sequelize.STRING,
@@ -45,8 +45,8 @@ const User = sequelize.define(
       allowNull: true,
       validate: {
         min: 4,
-        max:4
-      }
+        max: 4,
+      },
     },
     town: {
       type: Sequelize.STRING,
@@ -65,16 +65,16 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
       validate: {
-        is:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-      }
+        is: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+      },
     },
     dni: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
       validate: {
-        is:/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]$/i
-      }
+        is: /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]$/i,
+      },
     },
     isVerified: {
       type: Sequelize.BOOLEAN,
@@ -83,21 +83,20 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
       defaultValue:
-        "https://res.cloudinary.com/dhdbik42m/image/upload/v1652897103/no-hay-icono-de-foto-estilo-contorno-delgado-la-colecci_C3_B3n-iconos-se_C3_B1as-del-centro-comercial-ning_C3_BAn-fotos-para-dise_C3_B1o-147583922_xe4gzv.jpg",
+        'https://res.cloudinary.com/dhdbik42m/image/upload/v1652897103/no-hay-icono-de-foto-estilo-contorno-delgado-la-colecci_C3_B3n-iconos-se_C3_B1as-del-centro-comercial-ning_C3_BAn-fotos-para-dise_C3_B1o-147583922_xe4gzv.jpg',
       validate: {
         isUrl: true,
-      }
+      },
     },
-    
   },
   {
     timestamps: false,
   }
-  );
-//   User.getInscripciones = async function (req) {
+);
+//   User.getInscriptions = async function (req) {
 //     const id = req.params.id;
-//   const query = ` SELECT e.nombre, e.lugar, e.descripcion, e.edicion, e.src, e.fecha_inicio, e.fecha_finalizacion, i.id_usuario, i.id_evento
-//   FROM inscripciones as i, eventos as e
+//   const query = ` SELECT e.name, e.lugar, e.descripcion, e.edicion, e.src, e.fecha_inicio, e.fecha_finalizacion, i.id_usuario, i.id_evento
+//   FROM Inscriptions as i, events as e
 //   WHERE i.id_usuario=${id} and i.id_evento=e.id`;
 
 //   const result = await sequelize.query(query, {
@@ -110,14 +109,14 @@ const User = sequelize.define(
 //   console.log("RESULT", result);
 //   return result;
 // };
-// User.getPromociones = async function (req) {
+// User.getPromotions = async function (req) {
 //   const id = req.params.id;
-//   const query = `SELECT e.nombre as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.titulo, p.id, i.id_evento,p.src,c.nombre as comercio_nombre, c.poblacion,p.comercio_id,p.src
-//   FROM (( usuarios as u
-//   INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//   INNER JOIN eventos as e ON e.id=i.id_evento
-//   INNER JOIN promociones as p ON p.evento_id=e.id 
-//   INNER JOIN comercios as c ON c.id=p.comercio_id))
+//   const query = `SELECT e.name as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name as comercio_nombre, c.town,p.comercio_id,p.src
+//   FROM (( users as u
+//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//   INNER JOIN events as e ON e.id=i.id_evento
+//   INNER JOIN Promotions as p ON p.evento_id=e.id
+//   INNER JOIN commerces as c ON c.id=p.comercio_id))
 //   WHERE u.id=${id}`;
 
 //   const result = await sequelize.query(query, {
@@ -133,12 +132,12 @@ const User = sequelize.define(
 
 // User.getPromo = async function (req) {
 //   const { id, pid } = req.params;
-//   const query = `SELECT e.nombre as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.titulo, p.id, i.id_evento,p.src,c.nombre as comercio_nombre, c.poblacion,p.comercio_id,p.src
-//   FROM (( usuarios as u
-//   INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//   INNER JOIN eventos as e ON e.id=i.id_evento
-//   INNER JOIN promociones as p ON p.evento_id=e.id 
-//   INNER JOIN comercios as c ON c.id=p.comercio_id))
+//   const query = `SELECT e.name as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name as comercio_nombre, c.town,p.comercio_id,p.src
+//   FROM (( users as u
+//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//   INNER JOIN events as e ON e.id=i.id_evento
+//   INNER JOIN Promotions as p ON p.evento_id=e.id
+//   INNER JOIN commerces as c ON c.id=p.comercio_id))
 //   WHERE u.id=${id} and p.id=${pid}
 //   LIMIT 1 `;
 
@@ -152,15 +151,15 @@ const User = sequelize.define(
 //   return result[0];
 // };
 
-// User.getPromocionesExpiredByUser = async function (req) {
+// User.getPromotionsExpiredByUser = async function (req) {
 //   //REVISAR EL   WHERE u.id=${id} and p.fecha_expiracion < curdate()`
 //   const id = req.params.id;
-//   const query = `SELECT e.nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.titulo, p.id, i.id_evento,p.src,c.nombre, c.poblacion,p.comercio_id
-//   FROM (( usuarios as u
-//   INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//   INNER JOIN eventos as e ON e.id=i.id_evento
-//   INNER JOIN promociones as p ON p.evento_id=e.id 
-//   INNER JOIN comercios as c ON c.id=p.comercio_id))
+//   const query = `SELECT e.name, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name, c.town,p.comercio_id
+//   FROM (( users as u
+//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//   INNER JOIN events as e ON e.id=i.id_evento
+//   INNER JOIN Promotions as p ON p.evento_id=e.id
+//   INNER JOIN commerces as c ON c.id=p.comercio_id))
 //   WHERE u.id=${id} and p.fecha_expiracion < curdate()`;
 
 //   const result = await sequelize.query(query, {
@@ -173,14 +172,14 @@ const User = sequelize.define(
 //   console.log("RESULT", result);
 //   return result;
 // };
-// User.getPromocionesCurrentByUser = async function (req) {
+// User.getPromotionsCurrentByUser = async function (req) {
 //   const id = req.params.id;
-//   const query = `SELECT e.nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.titulo, i.id_evento,p.src,c.nombre, c.poblacion,p.comercio_id
-//   FROM (( usuarios as u
-//   INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//   INNER JOIN eventos as e ON e.id=i.id_evento
-//   INNER JOIN promociones as p ON p.evento_id=e.id 
-//   INNER JOIN comercios as c ON c.id=p.comercio_id))
+//   const query = `SELECT e.name, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, i.id_evento,p.src,c.name, c.town,p.comercio_id
+//   FROM (( users as u
+//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//   INNER JOIN events as e ON e.id=i.id_evento
+//   INNER JOIN Promotions as p ON p.evento_id=e.id
+//   INNER JOIN commerces as c ON c.id=p.comercio_id))
 //   WHERE u.id=${id} and p.fecha_expiracion > curdate()`;
 //   const result = await sequelize.query(query, {
 //     model: User,
@@ -193,13 +192,13 @@ const User = sequelize.define(
 //   return result;
 // };
 
-// User.getPromocionesById = async function (req) {
+// User.getPromotionsById = async function (req) {
 //   const id = req.params.id;
-//   const query = `SELECT e.nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.titulo, i.id_evento,p.src
-//   FROM (( usuarios as u
-//   INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//   INNER JOIN eventos as e ON e.id=i.id_evento
-//   INNER JOIN promociones as p ON p.evento_id=e.id))
+//   const query = `SELECT e.name, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, i.id_evento,p.src
+//   FROM (( users as u
+//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//   INNER JOIN events as e ON e.id=i.id_evento
+//   INNER JOIN Promotions as p ON p.evento_id=e.id))
 //   WHERE u.id=${id}`;
 
 //   const result = await sequelize.query(query, {
@@ -212,10 +211,10 @@ const User = sequelize.define(
 //   console.log("RESULT", result);
 //   return result;
 // };
-// User.deleteInscripcionesByUser = async function (req) {
+// User.deleteInscriptionsByUser = async function (req) {
 //   const id = req.params.id;
 
-//   const query = `DELETE FROM inscripciones WHERE id_usuario=${id};`;
+//   const query = `DELETE FROM Inscriptions WHERE id_usuario=${id};`;
 //   const result = await sequelize.query(query, {
 //     model: User,
 //     mapToModel: true,
@@ -230,12 +229,12 @@ const User = sequelize.define(
 //   console.log("DNI", dni);
 //   console.log("ID ", id);
 
-//   const query = `SELECT u.id, p.id as id_promocion, u.nombre, u.email,u.telefono, u.apellidos, u.dni, c.nombre, e.nombre, e.edicion, p.titulo
-//     FROM (( usuarios as u
-//     INNER JOIN inscripciones as i ON i.id_usuario= u.id
-//     INNER JOIN eventos as e ON e.id=i.id_evento
-//     INNER JOIN promociones as p ON p.evento_id=e.id
-//   INNER JOIN comercios as c ON c.id=${id}))
+//   const query = `SELECT u.id, p.id as id_Promotion, u.name, u.email,u.telefono, u.apellidos, u.dni, c.name, e.name, e.edicion, p.title
+//     FROM (( users as u
+//     INNER JOIN Inscriptions as i ON i.id_usuario= u.id
+//     INNER JOIN events as e ON e.id=i.id_evento
+//     INNER JOIN Promotions as p ON p.evento_id=e.id
+//   INNER JOIN commerces as c ON c.id=${id}))
 //     WHERE u.dni='${dni}' and p.fecha_expiracion< curdate() ;`;
 //   try {
 //     const result = await sequelize.query(query, {

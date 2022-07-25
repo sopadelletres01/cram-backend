@@ -82,8 +82,8 @@ Event.getEventsCurrentFree = async function (req) {
   
 }
 // Event.getEventosCurrent=async function(req){
-//     const query=` SELECT concat( nombre , " ", edicion), id, lugar, nombre, edicion,fecha_inicio
-//     FROM eventos
+//     const query=` SELECT concat( name , " ", edicion), id, lugar, name, edicion,fecha_inicio
+//     FROM events
 //     WHERE fecha_inicio>=current_date()`
 
 //     const result = await sequelize.query(query,{
@@ -98,7 +98,7 @@ Event.getEventsCurrentFree = async function (req) {
 // }
 // Event.getComerciosByEvento=async function(req){
 //     const {id} = req.params
-//     const query=` SELECT c.nombre, c.id, c.src, c.poblacion   FROM (( eventos as e   INNER JOIN promociones as p ON p.evento_id= e.id   INNER JOIN comercios as c ON c.id=p.comercio_id   ))   WHERE e.id=${id} ;`
+//     const query=` SELECT c.name, c.id, c.src, c.town   FROM (( events as e   INNER JOIN Promotions as p ON p.evento_id= e.id   INNER JOIN commerces as c ON c.id=p.comercio_id   ))   WHERE e.id=${id} ;`
 
 //     const result = await sequelize.query(query,{
 //         model: Event, mapToModel: true,
@@ -111,11 +111,11 @@ Event.getEventsCurrentFree = async function (req) {
 //     return result;
 // }
 
-// Event.getPromocionesByEvento=async function(req){
+// Event.getPromotionsByEvento=async function(req){
 //     const {id} = req.params
-//     const query=`SELECT p.titulo, p.descripcion, p.src, p.id
-//     FROM (( cram.eventos as e
-//     INNER JOIN cram.promociones as p ON p.evento_id= e.id ))
+//     const query=`SELECT p.title, p.descripcion, p.src, p.id
+//     FROM (( cram.events as e
+//     INNER JOIN cram.Promotions as p ON p.evento_id= e.id ))
 //     WHERE e.id=${id} ;`
 
 //     const result = await sequelize.query(query,{
