@@ -58,7 +58,9 @@ router.get('/eventos/:id',EventCtrl.show) */
 
 router.apiResource('usuarios', UserCtrl);
 router.apiResource('roles', RolCtrl);
-router.apiResource('eventos', EventCtrl, fileUpload.single('image'));
+// router.apiResource('eventos', EventCtrl, fileUpload.single('image'));
+router.apiResource('events', EventCtrl);
+
 router.get('/eventos/:id/comercios', EventCtrl.getComercios);
 router.get('/eventos/:id/promociones', EventCtrl.getPromociones);
 router.get('/comercios', ComerCtrl.index);
