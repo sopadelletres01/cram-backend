@@ -14,7 +14,7 @@ POST http://localhost:8080/api/auth/register HTTP/1.1
 content-type: application/json;charset=UTF-8
 
 {
-    "nombre":"cris",
+    "name":"cris",
     "password":"cris1234",
     "rep_password":"cris1234",
     "email":"marcportero01@gmail.com",

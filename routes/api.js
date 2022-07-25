@@ -9,17 +9,17 @@ const UserCtrl = require('../controllers/user.js');
 const RolCtrl = require('../controllers/rol.js');
 // const AuthCtrl = require('../controllers/auth.js')
 const EventCtrl = require('../controllers/event.js');
-const ComerCtrl = require('../controllers/comercio.js');
-const PromoComerCtrl = require('../controllers/promo_comercio.js');
-const PromoEventCtrl = require('../controllers/promo_evento.js');
-const EventComerCtrl = require('../controllers/evento_comercio.js');
+const ComerCtrl = require('../controllers/commerce.js');
+const PromoComerCtrl = require('../controllers/promo_commerce.js');
+const PromoEventCtrl = require('../controllers/promo_event.js');
+const EventComerCtrl = require('../controllers/event_commerce.js');
 const UploadCtrl = require('../controllers/file.js');
-const InsCtrl = require('../controllers/inscripciones.js');
+const InsCtrl = require('../controllers/inscriptions.js');
 // const CategoriasCtrl=require('../controllers/categoria.js')
-const UsuComerCtrl = require('../controllers/usuario_comercio.js');
-const UsuPromoCtrl = require('../controllers/userPromo.js');
+const UsuComerCtrl = require('../controllers/user_commerce');
+const UsuPromoCtrl = require('../controllers/user_promo.js');
 const PromoCtrl = require('../controllers/promo.js');
-/* const InscripUserCtrl= require('../controllers/inscripciones_usuarios.js') */
+/* const InscripUserCtrl= require('../controllers/Inscriptions_usuarios.js') */
 
 //Middlewares
 const { verifySignUp, authJwt } = require('../middlewares');
@@ -31,7 +31,7 @@ const { selectByFk, createByFk, deleteByFk, updateByFk, getIdByFk, uploadFile } 
 router.apiResource = function (resource, controller, middleware = null) {
   let uriRUD, uriLC;
   let url = resource.split('.');
-  //  /eventos?active=true
+  //  /events?active=true
   if (url.length === 1) {
     uriLC = `/${url[0]}`;
     uriRUD = `/${url[0]}/:id`;
@@ -48,40 +48,40 @@ router.apiResource = function (resource, controller, middleware = null) {
   router.delete(uriRUD, controller.destroy || ErrorCtrl.error404);
 };
 // CRUD products
-/* router.put('/eventos/:id',EventCtrl.update)
-router.put('/eventos/:id',EventCtrl.update)
-router.post('/comercios',fileUpload.single('image'),ComerCtrl.store)
-router.get('/comercios',ComerCtrl.index)
-router.post('/eventos',fileUpload.single('image'),EventCtrl.store)
-router.get('/eventos',EventCtrl.index)
-router.get('/eventos/:id',EventCtrl.show) */
+/* router.put('/events/:id',EventCtrl.update)
+router.put('/events/:id',EventCtrl.update)
+router.post('/commerces',fileUpload.single('image'),ComerCtrl.store)
+router.get('/commerces',ComerCtrl.index)
+router.post('/events',fileUpload.single('image'),EventCtrl.store)
+router.get('/events',EventCtrl.index)
+router.get('/events/:id',EventCtrl.show) */
 
-router.apiResource('usuarios', UserCtrl);
+router.apiResource('users', UserCtrl);
 router.apiResource('roles', RolCtrl);
-router.apiResource('eventos', EventCtrl, fileUpload.single('image'));
-router.get('/eventos/:id/comercios', EventCtrl.getComercios);
-router.get('/eventos/:id/promociones', EventCtrl.getPromociones);
-router.get('/comercios', ComerCtrl.index);
-router.get('/comercios/:nif', ComerCtrl.search);
+router.apiResource('events', EventCtrl, fileUpload.single('image'));
+router.get('/events/:id/commerces', EventCtrl.getComercios);
+router.get('/events/:id/promotions', EventCtrl.getPromotions);
+router.get('/commerces', ComerCtrl.index);
+router.get('/commerces/:nif', ComerCtrl.search);
 
-router.post('/comercios', fileUpload.single('image'), ComerCtrl.store);
-/* router.apiResource('comercios', ComerCtrl) */
-router.apiResource('comercios.promociones', PromoComerCtrl);
-router.apiResource('eventos.promociones', PromoEventCtrl);
-router.apiResource('comercios.eventos', EventComerCtrl);
-router.apiResource('inscripciones', InsCtrl);
-router.apiResource('promociones', PromoCtrl, fileUpload.single('image'));
+router.post('/commerces', fileUpload.single('image'), ComerCtrl.store);
+/* router.apiResource('commerces', ComerCtrl) */
+router.apiResource('commerces.promotions', PromoComerCtrl);
+router.apiResource('events.promotions', PromoEventCtrl);
+router.apiResource('commerces.events', EventComerCtrl);
+router.apiResource('Inscriptions', InsCtrl);
+router.apiResource('promotions', PromoCtrl, fileUpload.single('image'));
 router.apiResource('usuario_comercios', UsuComerCtrl);
-router.get('/user_promo/:id/promociones', UsuPromoCtrl.getPromoUsedByUser);
-router.get('/user_promo/:id/promociones/:nid', UsuPromoCtrl.thisPromoExist);
-router.post('/user_promo/promociones', UsuPromoCtrl.store);
+router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);
+router.get('/user_promo/:id/promotions/:nid', UsuPromoCtrl.thisPromoExist);
+router.post('/user_promo/promotions', UsuPromoCtrl.store);
 
-router.get('/comercios/:id/eventos', ComerCtrl.promos);
-router.get('/usuarios/:id/eventos', UserCtrl.inscripcion);
-router.delete('/usuarios/:id/eventos', UserCtrl.deleteInscripciones);
-router.get('/usuarios/:id/promociones', UserCtrl.promociones);
-router.get('/usuarios/:id/promociones/:pid', UserCtrl.getPromocion);
-router.get('/usuarios/:dni/comercios/:id', UserCtrl.getPromoComerAndUser);
+router.get('/commerces/:id/events', ComerCtrl.promotions);
+router.get('/users/:id/events', UserCtrl.inscription);
+router.delete('/users/:id/events', UserCtrl.deleteInscriptions);
+router.get('/users/:id/promotions', UserCtrl.getPromotions);
+router.get('/users/:id/promotions/:pid', UserCtrl.getPromotion);
+router.get('/users/:dni/commerces/:id', UserCtrl.getPromoComerAndUser);
 
 //Upload
 router.put('/file/:id', fileUpload.single('image'), UploadCtrl.updateUserAvatar);

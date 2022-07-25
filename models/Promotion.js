@@ -1,15 +1,15 @@
 /* Modelo */
-const { sequelize, Sequelize } = require("./db");
+const { sequelize, Sequelize } = require('./db');
 
 const Promotion = sequelize.define(
-  "promotions",
+  'promotions',
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    titulo: {
+    title: {
       type: Sequelize.STRING,
       allowNull: true,
     },

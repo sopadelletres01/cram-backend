@@ -1,9 +1,9 @@
-POST http://localhost:8080/api/usuarios HTTP/1.1
+POST http://localhost:8080/api/users HTTP/1.1
 content-type: application/json;charset=UTF-8
 
 
 {
-    "nombre":"cristina",
+    "name":"cristina",
     "apellidos":"aran",
     "password":"prueba",
     "email":"prueba@gmail.com",
@@ -14,8 +14,8 @@ content-type: application/json;charset=UTF-8
 }
 ###
 
-GET http://localhost:8080/api/usuarios HTTP/1.1
+GET http://localhost:8080/api/users HTTP/1.1
 
 ###
 
-GET http://localhost:8080/api/usuarios/1 HTTP/1.1
+GET http://localhost:8080/api/users/1 HTTP/1.1

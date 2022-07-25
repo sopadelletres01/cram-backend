@@ -1,13 +1,13 @@
 /* Modelo */
-const { sequelize, Sequelize } = require("./db");
+const { sequelize, Sequelize } = require('./db');
 const Commerce = sequelize.define(
-  "commerces",
+  'commerces',
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      field: "id",
+      field: 'id',
       allowNull: false,
     },
     name: {
@@ -25,7 +25,7 @@ const Commerce = sequelize.define(
     phone: {
       type: Sequelize.STRING,
       validate: {
-        len:[9,11],
+        len: [9, 11],
       },
       allowNull: false,
     },
@@ -63,8 +63,8 @@ const Commerce = sequelize.define(
 
 // Commerce.hasMany(Event, { through: 'Promotions', /* options */ });
 // Commerce.getEventos = async function (id) {
-//   const query = `select e.nombre, e.edicion, e.fecha_inicio, p.descripcion, p.comercio_id
-//     from eventos as e, promociones as p
+//   const query = `select e.name, e.edicion, e.fecha_inicio, p.descripcion, p.comercio_id
+//     from events as e, Promotions as p
 //     where p.comercio_id=${id} and p.evento_id=e.id`;
 
 //   const result = await sequelize.query(query, {
@@ -78,7 +78,7 @@ const Commerce = sequelize.define(
 //   return result;
 // };
 // Commerce.getNif = async function () {
-//   const query = await `select nif from comercios;`;
+//   const query = await `select nif from commerces;`;
 //   const result = await sequelize.query(query, {
 //     model: Commerce,
 //     mapToModel: true,
@@ -90,7 +90,7 @@ const Commerce = sequelize.define(
 //   return result;
 // };
 // Commerce.searchComercio = async function (nif) {
-//   const query = `select * from comercios where nif=${nif};`;
+//   const query = `select * from commerces where nif=${nif};`;
 //   const result = await sequelize.query(query, {
 //     model: Commerce,
 //     mapToModel: true,

@@ -1,34 +1,32 @@
-const { Sequelize, sequelize } = require("../models/db");
-const { Promotion } = require("../models");
-const { uploadFile } = require("./file");
+const { Sequelize, sequelize } = require('../models/db');
+const { Promotion } = require('../models');
+const { uploadFile } = require('./file');
 const Op = Sequelize.Op;
 // Create and Save a new Promotion
 // Retrieve all Promotions from the database.
 exports.index = async (req, res) => {
   try {
     const Promotions = await Promotion.findAll();
-    console.log("Promotions", Promotions);
+    console.log('Promotions', Promotions);
     res.send(Promotions);
   } catch (error) {
     res.status(500).send({
-      message: error.message || "No hemos podido listar los Promotions",
+      message: error.message || 'No hemos podido listar los Promotions',
     });
   }
 };
 exports.store = async (req, res, next) => {
   try {
     let image = await uploadFile(req, res, next);
-    console.log("IMAGENNNNN funciona", image);
-    const promocion = await Promotion.build({ ...req.body, src: image.url });
+    console.log('IMAGENNNNN funciona', image);
+    const Promotion = await Promotion.build({ ...req.body, src: image.url });
     /* probar en poner MockData.JSON */
-    await promocion.save();
-    res.status(200).send(promocion);
+    await Promotion.save();
+    res.status(200).send(Promotion);
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
     res.status(500).send({
-      message:
-        error.message ||
-        "No se ha podido crear el Promotion, revisa los datos introducidos",
+      message: error.message || 'No se ha podido crear el Promotion, revisa los datos introducidos',
     });
   }
 };
@@ -40,9 +38,7 @@ exports.show = async (req, res) => {
     return res.status(200).send(promo);
   } catch (error) {
     res.status(404).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar el Promotion con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar el Promotion con el id seleccionado',
     });
   }
 };
@@ -50,16 +46,14 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
-    const promocion = await Promotion.update(req.body, {
+    const Promotion = await Promotion.update(req.body, {
       where: { id: id },
     });
-    console.log("Promotion", promocion);
-    res.status(200).send("La promocion se ha actualizado correctamente");
+    console.log('Promotion', Promotion);
+    res.status(200).send('La Promotion se ha actualizado correctamente');
   } catch (error) {
     res.status(404).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar el Promotion con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar el Promotion con el id seleccionado',
     });
   }
 };
@@ -70,13 +64,11 @@ exports.destroy = async (req, res) => {
     const promo = await Promotion.destroy({
       where: { id: id },
     });
-    console.log("promo", promo);
-    res.status(200).send("la promocion se ha eliminado correctamente");
+    console.log('promo', promo);
+    res.status(200).send('la Promotion se ha eliminado correctamente');
   } catch (error) {
     res.status(500).send({
-      message:
-        error.message ||
-        "No hemos podido encontrar la promocion con el id seleccionado",
+      message: error.message || 'No hemos podido encontrar la Promotion con el id seleccionado',
     });
   }
 };
