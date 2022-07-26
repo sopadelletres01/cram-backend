@@ -52,6 +52,20 @@ const Commerce = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    url: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        isUrl:true
+      }
+    },
+    adress: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
   },
   {
     timestamps: true,
