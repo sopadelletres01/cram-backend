@@ -69,6 +69,13 @@ const Event = sequelize.define(
         isUrl: true
       }
     },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
   },
   {
     timestamps: true,
