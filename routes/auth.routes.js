@@ -7,6 +7,7 @@ router.post(
     "/register",
     AuthCtrl.signup
 );
+router.post('/register-free', AuthCtrl.register)
 
 router.post("/login", AuthCtrl.signin);
 router.post("/logout", AuthCtrl.signout);

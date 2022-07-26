@@ -26,3 +26,6 @@ exports.destroy = async (req, res) => {
 exports.getPromotionsByEventsFree = async (req, res) => {
   
 }
+exports.getEvents = async (req, res) => {
+  
+}

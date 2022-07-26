@@ -58,6 +58,36 @@ async function sendVerificationMail(req,res,user,token,type="account"){
   
 }
 
+exports.register = async (req, res) => { 
+  try { 
+    const user = await User.findOne({ where: { dni: req.body.dni } })
+    console.log(user)
+    if (!user) { 
+      const passwordIsValid = req.body.password === req.body.rep_password
+      
+      if (!passwordIsValid) { 
+        return res.status(403).send({message: "Passwords are not the same"})
+      }
+      const hashPassword = bcrypt.hashSync(req.body.password, 8)
+      // Damos de alta al usuario
+      const createdUser = await User.create({...req.body,
+        password: hashPassword,
+        isVerified:0
+      });
+      console.log(createdUser)
+      let tokenObject = await generateToken(createdUser.id)
+      await sendVerificationMail(req,res,createdUser,tokenObject.token)
+      res.status(201).send({ user: createdUser, message: "User registered successfully!" });
+    
+    }
+  } catch (error) { 
+    console.log(error)
+
+    res.status(500).send({ message: error });
+
+  }
+
+}
 
 exports.signup = async (req, res) => {
   // Save User to Database
