@@ -26,7 +26,9 @@ app.use('/test',test)
 //El orden en el que pongas los app.use importa:
 //Si cambias el orden y se llama al /api antes que al /api/auth, todas las rutas usan el middleware isAuthenticated y no podremos hacer login ni register
 app.use('/api/auth',authRoutes )
-app.use('/api',isAuthenticated, api)
+// app.use('/api', isAuthenticated, api)
+app.use('/api', api)
+
 //Verify authJWT
 
 // set port, listen for requests

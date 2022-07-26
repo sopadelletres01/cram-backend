@@ -59,7 +59,8 @@ router.get('/events/:id',EventCtrl.show) */
 router.apiResource('users', UserCtrl);
 router.apiResource('roles', RolCtrl);
 // router.apiResource('events', EventCtrl, fileUpload.single('image'));
-router.apiResource('events', EventCtrl);
+router.get('/events', EventCtrl.getEvents);
+router.get('/promotions/free', PromoEventCtrl.getEvents);
 
 router.get('/events/:id/commerces', EventCtrl.getComercios);
 router.get('/events/:id/promotions', EventCtrl.getPromotions);

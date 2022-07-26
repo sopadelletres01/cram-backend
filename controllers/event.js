@@ -4,11 +4,14 @@ const { Event } = require('../models');
 const { uploadFile } = require('./file');
 const Op = Sequelize.Op;
 
-exports.getEventActiveFree = async (req, res) => {
+exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.getEventsCurrentFree();
-    console.log("EVENTOS NO CADUCADOS", events);
-    res.status(200).send(events);
+    console.log('tu puta madre',req.query)
+    if (req.query.free === 'true' && req.query.active === 'true') {
+      const events = await Event.getEventsCurrentFree();
+      console.log("EVENTOS NO CADUCADOS", events);
+      res.status(200).send(events);
+    }
   } catch (e) {
     res.status(500).send({
       message: e.message || "No hemos podido listar los eventos",

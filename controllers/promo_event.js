@@ -23,3 +23,6 @@ exports.update = async (req, res) => {
 exports.destroy = async (req, res) => {
   deleteByFk(req, res, Promotion, 'evento_id', 'id');
 };
+exports.getPromotionsByEventsFree = async (req, res) => {
+  
+}

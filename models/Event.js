@@ -34,6 +34,9 @@ const Event = sequelize.define(
       allowNull: false,
       defaultValue:
         'https://res.cloudinary.com/dhdbik42m/image/upload/v1652897103/no-hay-icono-de-foto-estilo-contorno-delgado-la-colecci_C3_B3n-iconos-se_C3_B1as-del-centro-comercial-ning_C3_BAn-fotos-para-dise_C3_B1o-147583922_xe4gzv.jpg',
+        validate: {
+          isUrl: true
+        }
     },
     idActivity: {
       type: Sequelize.INTEGER,
@@ -58,6 +61,13 @@ const Event = sequelize.define(
     adress: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    url: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        isUrl: true
+      }
     },
   },
   {
