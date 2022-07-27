@@ -63,6 +63,8 @@ router.get('/events', EventCtrl.getEvents);
 router.get('/promotions/free', PromoEventCtrl.getEvents);
 
 router.get('/events/:id/commerces', EventCtrl.getComercios);
+
+// para coger todas las promociones de un evento.
 router.get('/events/:id/promotions', EventCtrl.getPromotions);
 router.get('/commerces', ComerCtrl.index);
 router.get('/commerces/:nif', ComerCtrl.search);

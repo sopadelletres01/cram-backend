@@ -6,7 +6,7 @@ exports.getPromoUsedByUser = async (req, res) => {
   try {
     const res = await UserPromo.findAll({
       where: {
-        id_usuario: req.params.id,
+        idUser: req.params.id,
       },
     });
     res.status(200).send(res);

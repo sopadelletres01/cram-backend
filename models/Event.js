@@ -128,22 +128,23 @@ Event.getEventsCurrentFree = async function (req) {
 //     return result;
 // }
 
-// Event.getPromotionsByEvento=async function(req){
-//     const {id} = req.params
-//     const query=`SELECT p.title, p.descripcion, p.src, p.id
-//     FROM (( cram.events as e
-//     INNER JOIN cram.Promotions as p ON p.evento_id= e.id ))
-//     WHERE e.id=${id} ;`
+Event.getPromotionsByEvento=async function(req){
+    const {id} = req.params
+    const query=`SELECT p.name, p.start_date,p.final_date,p.description, p.photo, p.id, r.name
+    FROM (( events as e
+    INNER JOIN promotions as p ON p.idEvent= e.id 
+    INNER JOIN rankings as r ON p.idRanking=r.id))
+    WHERE e.id=${id} ;`
 
-//     const result = await sequelize.query(query,{
-//         model: Event, mapToModel: true,
-//         nest: true,
-//         raw: true,
-//         type: sequelize.QueryTypes.SELECT
+    const result = await sequelize.query(query,{
+        model: Event, mapToModel: true,
+        nest: true,
+        raw: true,
+        type: sequelize.QueryTypes.SELECT
 
-//     })
-//     console.log("RESULT",result)
-//     return result;
-// }
+    })
+    console.log("RESULT",result)
+    return result;
+}
 
 module.exports = Event;

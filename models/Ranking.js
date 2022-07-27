@@ -10,7 +10,7 @@ const Ranking = sequelize.define('rankings',
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                isIn:[['finisher','1','2','3','abandoned','registered']]
+                isIn:[['finisher','1','2','3','abandoned','participante']]
             }
         }
     }, {

@@ -130,26 +130,25 @@ const User = sequelize.define(
 //   return result;
 // };
 
-// User.getPromo = async function (req) {
-//   const { id, pid } = req.params;
-//   const query = `SELECT e.name as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name as comercio_nombre, c.town,p.comercio_id,p.src
-//   FROM (( users as u
-//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
-//   INNER JOIN events as e ON e.id=i.id_evento
-//   INNER JOIN Promotions as p ON p.evento_id=e.id
-//   INNER JOIN commerces as c ON c.id=p.comercio_id))
-//   WHERE u.id=${id} and p.id=${pid}
-//   LIMIT 1 `;
+User.getPromo = async function (req) {
+  const { id, pid } = req.params;
+  const query = `SELECT e.name as evento_nombre, p.start_date,p.final_date,p.description,  p.id, i.idEvent ,p.photo as photo_promotion, c.name as comercio_nombre, c.town,p.idCommerce,c.photo as photo_commerce
+  FROM (( users as u
+  INNER JOIN inscriptions as i ON i.idUser= u.id
+  INNER JOIN events as e ON e.id=i.idEvent
+  INNER JOIN promotions as p ON p.idEvent=e.id
+  INNER JOIN commerces as c ON c.id=p.idCommerce))
+  WHERE u.id=${id} and p.id=${pid} LIMIT 1;`;
 
-//   const result = await sequelize.query(query, {
-//     model: User,
-//     mapToModel: true,
-//     raw: true,
-//     type: sequelize.QueryTypes.SELECT,
-//   });
-//   console.log("RESULT", result[0]);
-//   return result[0];
-// };
+  const result = await sequelize.query(query, {
+    model: User,
+    mapToModel: true,
+    raw: true,
+    type: sequelize.QueryTypes.SELECT,
+  });
+  console.log("RESULT", result[0]);
+  return result[0];
+};
 
 // User.getPromotionsExpiredByUser = async function (req) {
 //   //REVISAR EL   WHERE u.id=${id} and p.fecha_expiracion < curdate()`
