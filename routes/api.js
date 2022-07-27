@@ -79,6 +79,9 @@ router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);
 router.get('/user_promo/:id/promotions/:nid', UsuPromoCtrl.thisPromoExist);
 router.post('/user_promo/promotions', UsuPromoCtrl.store);
 
+router.get('/QR/validate/:idUser/:idPromo',UsuPromoCtrl.validate)
+router.get('/QR/generate/:idUser/:idPromo',UsuPromoCtrl.generate)
+
 router.get('/commerces/:id/events', ComerCtrl.promotions);
 router.get('/users/:id/events', UserCtrl.inscription);
 router.delete('/users/:id/events', UserCtrl.deleteInscriptions);

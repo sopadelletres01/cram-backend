@@ -1,0 +1,9 @@
+GET http://localhost:8080/api/QR/generate/12/14 HTTP/1.1
+
+
+###
+
+GET http://localhost:8080/api/QR/validate/14/4 HTTP/1.1
+
+
+###

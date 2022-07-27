@@ -1,5 +1,5 @@
 const { sequelize, Sequelize } = require('./db');
-const User_Promo = sequelize.define(
+const UserPromo = sequelize.define(
   'user_promo',
   {
     id: {
@@ -17,25 +17,25 @@ const User_Promo = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   }
 );
 
-// UserPromo.exist=async function (id_usuario, id_Promotion){
-//     const query=` SELECT * FROM user_promo WHERE id_usuario=${id_usuario} and id_Promotion=${id_Promotion}`
-//     try{
-//         const result = await sequelize.query(query,
-//             {
-//                 model: UserPromo, mapToModel: true,
-//                 nest: true,
-//                 raw: true,
-//                 type: sequelize.QueryTypes.SELECT
-//             })
-//             console.log("RESULT",result)
-//          return result;
-//        }catch(e){
-//            console.log(e)
-//        }
-// }
-module.exports = User_Promo;
+UserPromo.exist=async function (idUser, idPromotion){
+    const query=` SELECT * FROM user_promo WHERE idUser=${idUser} and idPromotion=${idPromotion}`
+    try{
+        const result = await sequelize.query(query,
+            {
+                model: UserPromo, mapToModel: true,
+                nest: true,
+                raw: true,
+                type: sequelize.QueryTypes.SELECT
+            })
+            console.log("RESULT",result)
+         return result;
+       }catch(e){
+           console.log(e)
+       }
+}
+module.exports = UserPromo;

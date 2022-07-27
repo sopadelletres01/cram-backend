@@ -31,6 +31,7 @@
         "mysql2": "^2.3.3",
         "nodemailer": "^6.7.4",
         "nodemon": "^2.0.15",
+        "qrcode": "^1.5.1",
         "sequelize": "^6.19.0",
         "serve-favicon": "^2.5.0",
         "streamifier": "^0.1.1",
