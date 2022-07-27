@@ -60,7 +60,7 @@ router.apiResource('users', UserCtrl);
 router.apiResource('roles', RolCtrl);
 // router.apiResource('events', EventCtrl, fileUpload.single('image'));
 router.get('/events', EventCtrl.getEvents);
-router.get('/promotions/free', PromoEventCtrl.getEvents);
+router.get('/promotions/free', PromoCtrl.getPromotionsByFreeEvents);
 
 router.get('/events/:id/commerces', EventCtrl.getComercios);
 router.get('/events/:id/promotions', EventCtrl.getPromotions);
