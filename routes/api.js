@@ -60,7 +60,7 @@ router.apiResource('users', UserCtrl);
 router.apiResource('roles', RolCtrl);
 // router.apiResource('events', EventCtrl, fileUpload.single('image'));
 router.get('/events', EventCtrl.getEvents);
-router.get('/promotions/free', PromoEventCtrl.getEvents);
+router.get('/promotions/free', PromoCtrl.getPromotionsByFreeEvents);
 
 router.get('/events/:id/commerces', EventCtrl.getComercios);
 
@@ -80,6 +80,9 @@ router.apiResource('usuario_comercios', UsuComerCtrl);
 router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);
 router.get('/user_promo/:id/promotions/:nid', UsuPromoCtrl.thisPromoExist);
 router.post('/user_promo/promotions', UsuPromoCtrl.store);
+
+router.get('/QR/validate/:idUser/:idPromo',UsuPromoCtrl.validate)
+router.get('/QR/generate/:idUser/:idPromo',UsuPromoCtrl.generate)
 
 router.get('/commerces/:id/events', ComerCtrl.promotions);
 router.get('/users/:id/events', UserCtrl.inscription);

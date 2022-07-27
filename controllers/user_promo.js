@@ -1,6 +1,50 @@
 const { Sequelize, sequelize } = require('../models/db');
 const { UserPromo } = require('../models');
+const { generateQR, generateQRConsole } = require('./helpers/generateQr');
 const Op = Sequelize.Op;
+
+exports.generate = async (req, res) => {
+  try {
+    //Faltaria validad el qr con una especie de token o formulario para que solo lo puedan validar los usuarios comerciales
+    const { idPromo, idUser } = req.params;
+    console.log(generateQR);
+    const url = `http://${req.headers.host}/api/QR/validate/${idUser}/${idPromo}`;
+    const qr = await generateQRConsole(url);
+    console.log('QR', qr);
+    res.status(200).send(qr);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      message: e.message || 'no hemos podido coger las Promotions de este participante.',
+    });
+  }
+};
+
+exports.validate = async (req, res) => {
+  try {
+    //Faltaria validad el qr con una especie de token o formulario para que solo lo puedan validar los usuarios comerciales
+    const { idPromo, idUser } = req.params;
+
+    const promo = await UserPromo.exist(idUser, idPromo);
+    console.log(promo);
+    if (promo.length !== 0) {
+      console.log('hay cositas');
+      res.status(400).send({message: "La promocion ya ha sido validada"});
+    } else {
+      console.log('vaciooooooooooooooooooooooooooooooooo');
+      const date = new Date()
+      console.log("DATE",date)
+      const validarPromo = await UserPromo.create({idPromotion:idPromo,idUser, date});
+      console.log(validarPromo)
+      res.status(200).send({message: "La promocion ha sido validada correctamente"});
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(404).send({
+      message: 'no se ha podido validar la promocion. Puede que el QR no sea correcto o esté corrupto',
+    });
+  }
+};
 
 exports.getPromoUsedByUser = async (req, res) => {
   try {

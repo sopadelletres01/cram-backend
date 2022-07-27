@@ -7,11 +7,15 @@ const Op = Sequelize.Op;
 exports.getEvents = async (req, res) => {
   try {
     console.log('tu puta madre',req.query)
+    let events;
     if (req.query.free === 'true' && req.query.active === 'true') {
-      const events = await Event.getEventsCurrentFree();
+      events = await Event.getEventsCurrentFree();
       console.log("EVENTOS NO CADUCADOS", events);
-      res.status(200).send(events);
+      return res.status(200).send(events);
     }
+    events = await Event.findAll();
+    console.log(events)
+    return res.status(200).send(events);
   } catch (e) {
     res.status(500).send({
       message: e.message || "No hemos podido listar los eventos",

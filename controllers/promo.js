@@ -4,6 +4,17 @@ const { uploadFile } = require('./file');
 const Op = Sequelize.Op;
 // Create and Save a new Promotion
 // Retrieve all Promotions from the database.
+
+exports.getPromotionsByFreeEvents = async (req, res) => {
+  try {
+    const promos = await Promotion.getPromotionsByFreeEvents();
+    console.log("FREE PROMOS",promos);
+    res.status(200).send(promos);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.index = async (req, res) => {
   try {
     const Promotions = await Promotion.findAll();
