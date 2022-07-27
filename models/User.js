@@ -83,7 +83,7 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
       defaultValue:
-        'https://res.cloudinary.com/dhdbik42m/image/upload/v1652897103/no-hay-icono-de-foto-estilo-contorno-delgado-la-colecci_C3_B3n-iconos-se_C3_B1as-del-centro-comercial-ning_C3_BAn-fotos-para-dise_C3_B1o-147583922_xe4gzv.jpg',
+        'https://res.cloudinary.com/dhdbik42m/image/upload/v1653657315/fddc4mhikp5coxew116c.jpg',
       validate: {
         isUrl: true,
       },
