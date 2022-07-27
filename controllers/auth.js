@@ -32,8 +32,8 @@ async function sendVerificationMail(req,res,user,token,type="account"){
   // Send email (use credintials of SendGrid)
   if ( !user ) throw new Error("QUe user ni que user")
   const isAccountType = type === "account"
-  const uri = `${isAccountType ? `confirmation/${user.email}/${token}` : `forgot/reset/${user.id}/${token}`}`
-  const url = `http://${req.headers.host}/api/auth/${uri}`
+  const uri = `${isAccountType ? `${req.headers.host}/api/auth/confirmation/${user.email}/${token}` : `localhost:3000/forgot/reset/${user.id}/${token}`}`
+  const url = `http://${uri}`
   const mailOptions = {
     from: process.env.EMAIL_USER || 'cram.testing@gmail.com', 
     to: user.email, 
