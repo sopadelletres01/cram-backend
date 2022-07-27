@@ -78,14 +78,15 @@ const Event = sequelize.define(
     }
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   }
 );
 Event.getEventsCurrentFree = async function (req) {
   const query=` SELECT * , concat( name , " ", edition) as name_complete
   FROM events
-  WHERE final_date >= current_date() and free=true;`
+  WHERE final_date >= current_date() and free=true
+  ORDER BY  start_date ASC;`
   
       const result = await sequelize.query(query,{
           model: Event, mapToModel: true,
