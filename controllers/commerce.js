@@ -32,7 +32,7 @@ exports.search = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const commerces = await Commerce.findAll();
-    res.send(commerces);
+    res.status(200).send(commerces);
   } catch (error) {
     res.status(500).send({
       message: error.message || 'No hemos podido listar los commerces',
