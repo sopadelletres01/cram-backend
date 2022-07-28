@@ -156,7 +156,7 @@ exports.signin = async (req, res) => {
     } 
     // -----cambiadooooooo--------
     const {remember} = req.body
-    const isAdmin = user.rol === 54 
+    const isAdmin = user.idRole === 54 
     const payload = { id:user.id, email:user.email, name:user.name, photo:user.photo, isVerified:true, isAdmin:isAdmin};
     const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: remember ? '24h' : '6h' })
     console.log("TOKEN", authToken)
