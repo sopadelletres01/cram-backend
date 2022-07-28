@@ -132,7 +132,7 @@ const User = sequelize.define(
 
 User.getPromo = async function (req) {
   const { id } = req.params;
-  const query = `SELECT e.name as event_name, p.name, p.start_date,p.final_date,p.description,  p.id ,p.photo , c.name as commerce_name, c.town,p.idCommerce,c.photo as photo_commerce
+  const query = `SELECT e.name as event_name, e.description as event_description,  e.photo as event_photo, p.name, p.start_date,p.final_date,p.description,  p.id ,p.photo , c.name as commerce_name, c.town as commerce_town,p.idCommerce,c.photo as photo_commerce,p.idEvent
   FROM (( promotions as p
   INNER JOIN events as e ON e.id=p.idEvent
   INNER JOIN commerces as c ON c.id=p.idCommerce))
