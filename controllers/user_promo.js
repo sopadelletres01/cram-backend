@@ -7,9 +7,8 @@ exports.generate = async (req, res) => {
   try {
     //Faltaria validad el qr con una especie de token o formulario para que solo lo puedan validar los usuarios comerciales
     const { idPromo, idUser } = req.params;
-    console.log(generateQR);
     const url = `http://${req.headers.host}/api/QR/validate/${idUser}/${idPromo}`;
-    const qr = await generateQRConsole(url);
+    const qr = await generateQR(url);
     console.log('QR', qr);
     res.status(200).send(qr);
   } catch (e) {
