@@ -68,6 +68,8 @@ router.get('/events/:id', EventCtrl.show);
 // para coger todas las promociones de un evento.
 router.get('/events/:id/promotions', EventCtrl.getPromotions);
 router.get('/commerces', ComerCtrl.index);
+router.get('/commerces/:id', ComerCtrl.show);
+
 router.get('/commerces/:nif', ComerCtrl.search);
 
 router.post('/commerces', fileUpload.single('image'), ComerCtrl.store);
