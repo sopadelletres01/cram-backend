@@ -5,6 +5,17 @@ const Op = Sequelize.Op;
 // Create and Save a new Promotion
 // Retrieve all Promotions from the database.
 
+exports.getPromotionsByCommerce = async (req, res) => { 
+  try {
+    console.log(req.params.id)
+    const promos = await Promotion.getPromotionsForCommerce(req.params.id)
+    console.log("PROMOOOS",promos)
+    res.status(200).send(promos)
+  } catch (error) { 
+    console.log(error)
+  }
+
+}
 exports.getPromotionsByFreeEvents = async (req, res) => {
   try {
     const promos = await Promotion.getPromotionsByFreeEvents(req.params.id);

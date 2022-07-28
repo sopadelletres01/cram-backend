@@ -63,6 +63,19 @@ Promotion.getPromotionsByFreeEvents = async function (req) {
   });
   return result;
 };
+Promotion.getPromotionsForCommerce = async function (idCommerce) { 
+
+  const query = `SELECT * FROM promotions as p
+   WHERE p.idCommerce=${idCommerce}`;
+  const result = await sequelize.query(query, {
+    model: Promotion,
+    mapToModel: true,
+    nest: true,
+    raw: true,
+    type: sequelize.QueryTypes.SELECT,
+  });
+  return result;
+}
 
 Promotion.getPromotionsAll = async function (idEvento) { 
   const query = `SELECT p.name, p.description, p.photo, p.id, p.idEvent, e.free, e.name as event_name, e.description as event_description, c.name, c.town,c.adress, c.url,c.photo
