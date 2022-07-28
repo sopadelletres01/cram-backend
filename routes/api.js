@@ -62,7 +62,8 @@ router.apiResource('roles', RolCtrl);
 router.get('/events', EventCtrl.getEvents);
 router.get('/promotions/free', PromoCtrl.getPromotionsByFreeEvents);
 
-router.get('/events/:id/commerces', EventCtrl.getComercios);
+router.get('/events/:id/commerces', EventCtrl.getComercios);      
+router.get('/events/:id', EventCtrl.show);
 
 // para coger todas las promociones de un evento.
 router.get('/events/:id/promotions', EventCtrl.getPromotions);
@@ -70,11 +71,13 @@ router.get('/commerces', ComerCtrl.index);
 router.get('/commerces/:nif', ComerCtrl.search);
 
 router.post('/commerces', fileUpload.single('image'), ComerCtrl.store);
+router.post('/inscriptions', InsCtrl.store)
 /* router.apiResource('commerces', ComerCtrl) */
 router.apiResource('commerces.promotions', PromoComerCtrl);
 router.apiResource('events.promotions', PromoEventCtrl);
 router.apiResource('commerces.events', EventComerCtrl);
 router.apiResource('inscriptions', InsCtrl);
+router.get('/promotions/:id', PromoCtrl.getPromotionsAllShow)
 router.apiResource('promotions', PromoCtrl, fileUpload.single('image'));
 router.apiResource('usuario_comercios', UsuComerCtrl);
 router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);

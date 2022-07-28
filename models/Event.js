@@ -1,4 +1,4 @@
-/* Modelo */
+    /* Modelo */
 const { sequelize, Sequelize } = require('./db');
 const Event = sequelize.define(
   'events',
@@ -131,7 +131,7 @@ Event.getEventsCurrentFree = async function (req) {
 
 Event.getPromotionsByEvento=async function(req){
     const {id} = req.params
-    const query=`SELECT p.name, p.start_date,p.final_date,p.description, p.photo, p.id, r.name
+    const query=`SELECT p.name, p.start_date,p.final_date, p.description, p.photo, p.id, r.name as ranking_name
     FROM (( events as e
     INNER JOIN promotions as p ON p.idEvent= e.id 
     INNER JOIN rankings as r ON p.idRanking=r.id))

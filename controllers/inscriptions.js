@@ -35,7 +35,6 @@ exports.store = async (req, res) => {
 };
 exports.show = async (req, res) => {
   console.log('ENTRAAA');
-
   try {
     const id = req.params.id;
     const ins = await Inscription.findOne({ where: { id: id } });
