@@ -93,22 +93,22 @@ const User = sequelize.define(
     timestamps: false,
   }
 );
-//   User.getInscriptions = async function (req) {
-//     const id = req.params.id;
-//   const query = ` SELECT e.name, e.lugar, e.descripcion, e.edicion, e.src, e.fecha_inicio, e.fecha_finalizacion, i.id_usuario, i.id_evento
-//   FROM Inscriptions as i, events as e
-//   WHERE i.id_usuario=${id} and i.id_evento=e.id`;
+  User.getInscriptions = async function (req) {
+    const id = req.params.id;
+  const query = ` SELECT e.name, e.adress, e.description, e.edition, e.photo, e.start_date, e.final_date, i.idUser, i.idEvent
+  FROM inscriptions as i, events as e
+  WHERE i.idUser=${id} and i.idEvent=e.id`;
 
-//   const result = await sequelize.query(query, {
-//     model: User,
-//     mapToModel: true,
-//     nest: true,
-//     raw: true,
-//     type: sequelize.QueryTypes.SELECT,
-//   });
-//   console.log("RESULT", result);
-//   return result;
-// };
+  const result = await sequelize.query(query, {
+    model: User,
+    mapToModel: true,
+    nest: true,
+    raw: true,
+    type: sequelize.QueryTypes.SELECT,
+  });
+  console.log("RESULT", result);
+  return result;
+};
 // User.getPromotions = async function (req) {
 //   const id = req.params.id;
 //   const query = `SELECT e.name as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name as comercio_nombre, c.town,p.comercio_id,p.src
