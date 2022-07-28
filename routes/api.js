@@ -91,7 +91,7 @@ router.get('/commerces/:id/events', ComerCtrl.promotions);
 router.get('/users/:id/events', UserCtrl.inscription);
 router.delete('/users/:id/events', UserCtrl.deleteInscriptions);
 router.get('/users/:id/promotions', UserCtrl.getPromotions);
-router.get('/users/:id/promotions/:pid', UserCtrl.getPromotion);
+router.get('/user/promotions/:id', UserCtrl.getPromotion);
 router.get('/users/:dni/commerces/:id', UserCtrl.getPromoComerAndUser);
 
 //Upload
