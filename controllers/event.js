@@ -101,7 +101,8 @@ exports.show = async (req, res) => {
   try {
     const id = req.params.id;
     const evento = await Event.findOne({ where: { id: id } });
-    res.send(evento);
+    console.log(evento)
+    res.status(200).send(evento);
   } catch (error) {
     console.log('error', error);
     res.status(500).send({

@@ -7,13 +7,23 @@ const Op = Sequelize.Op;
 
 exports.getPromotionsByFreeEvents = async (req, res) => {
   try {
-    const promos = await Promotion.getPromotionsByFreeEvents();
+    const promos = await Promotion.getPromotionsByFreeEvents(req.params.id);
     console.log("FREE PROMOS",promos);
     res.status(200).send(promos);
   } catch (error) {
     console.log(error);
   }
 };
+exports.getPromotionsAllShow = async (req, res) => { 
+
+  try { 
+    const promos = await Promotion.getPromotionsAll(req.params.id);
+    console.log('show promos', promos)
+    res.status(200).send(promos)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 exports.index = async (req, res) => {
   try {
