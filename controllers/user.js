@@ -59,10 +59,11 @@ exports.getPromotions = async (req, res) => {
 exports.getPromotion = async (req, res) => {
   try {
     let promo = await User.getPromo(req);
-    console.log('promo', promo);
+    console.log('promoooo', promo);
     if (promo) {
       return res.status(200).send(promo);
     }
+    return res.status(404).send({message:"Promo not found"})
   } catch (error) {
     res.status(500).send({
       message: error.message || 'No hemos podido seleccionar la Promotion',
