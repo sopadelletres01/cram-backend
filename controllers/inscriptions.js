@@ -21,8 +21,10 @@ exports.index = async (req, res) => {
 };
 exports.store = async (req, res) => {
   try {
+    console.log("Entra en ins",req.body)
     const ins = await Inscription.build(req.body);
     await ins.save();
+    console.log("INS",ins)
     res.send(ins);
   } catch (error) {
     console.log('error', error);

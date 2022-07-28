@@ -74,7 +74,7 @@ router.post('/commerces', fileUpload.single('image'), ComerCtrl.store);
 router.apiResource('commerces.promotions', PromoComerCtrl);
 router.apiResource('events.promotions', PromoEventCtrl);
 router.apiResource('commerces.events', EventComerCtrl);
-router.apiResource('Inscriptions', InsCtrl);
+router.apiResource('inscriptions', InsCtrl);
 router.apiResource('promotions', PromoCtrl, fileUpload.single('image'));
 router.apiResource('usuario_comercios', UsuComerCtrl);
 router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);

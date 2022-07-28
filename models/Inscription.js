@@ -11,14 +11,18 @@ const Inscription = sequelize.define("inscriptions",
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-
+    idUser: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
     idMode: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      defaultValue: 134
     }
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   }
 );
