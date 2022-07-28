@@ -47,12 +47,12 @@ exports.validate = async (req, res) => {
 
 exports.getPromoUsedByUser = async (req, res) => {
   try {
-    const res = await UserPromo.findAll({
+    const promo = await UserPromo.findAll({
       where: {
         idUser: req.params.id,
       },
     });
-    res.status(200).send(res);
+    res.status(200).send(promo);
   } catch (e) {
     console.log(e);
     res.status(500).send({
