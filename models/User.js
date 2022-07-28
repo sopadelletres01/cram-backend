@@ -109,26 +109,26 @@ const User = sequelize.define(
   console.log("RESULT", result);
   return result;
 };
-// User.getPromotions = async function (req) {
-//   const id = req.params.id;
-//   const query = `SELECT e.name as evento_nombre, p.fecha_inicio,p.fecha_expiracion,p.descripcion, p.title, p.id, i.id_evento,p.src,c.name as comercio_nombre, c.town,p.comercio_id,p.src
-//   FROM (( users as u
-//   INNER JOIN Inscriptions as i ON i.id_usuario= u.id
-//   INNER JOIN events as e ON e.id=i.id_evento
-//   INNER JOIN Promotions as p ON p.evento_id=e.id
-//   INNER JOIN commerces as c ON c.id=p.comercio_id))
-//   WHERE u.id=${id}`;
+User.getPromotions = async function (req) {
+  const id = req.params.id;
+  const query = `SELECT e.name as event_name, p.start_date,p.final_date,p.description, p.name, p.id, i.idEvent,p.photo,c.name as commerce_name, c.town,p.idCommerce
+  FROM (( users as u
+  INNER JOIN inscriptions as i ON i.idUser= u.id
+  INNER JOIN events as e ON e.id=i.idEvent
+  INNER JOIN promotions as p ON p.idEvent=e.id
+  INNER JOIN commerces as c ON c.id=p.idCommerce))
+  WHERE u.id=${id};`;
 
-//   const result = await sequelize.query(query, {
-//     model: User,
-//     mapToModel: true,
-//     nest: true,
-//     raw: true,
-//     type: sequelize.QueryTypes.SELECT,
-//   });
-//   console.log("RESULT", result);
-//   return result;
-// };
+  const result = await sequelize.query(query, {
+    model: User,
+    mapToModel: true,
+    nest: true,
+    raw: true,
+    type: sequelize.QueryTypes.SELECT,
+  });
+  console.log("RESULT", result);
+  return result;
+};
 
 User.getPromo = async function (req) {
   const { id } = req.params;
