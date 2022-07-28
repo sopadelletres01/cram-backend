@@ -68,7 +68,7 @@ const Commerce = sequelize.define(
     }
   },
   {
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   }
 );

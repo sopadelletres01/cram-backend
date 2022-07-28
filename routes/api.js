@@ -73,13 +73,14 @@ router.get('/commerces/:nif', ComerCtrl.search);
 router.post('/commerces', fileUpload.single('image'), ComerCtrl.store);
 router.post('/inscriptions', InsCtrl.store)
 /* router.apiResource('commerces', ComerCtrl) */
-router.apiResource('commerces.promotions', PromoComerCtrl);
+// router.apiResource('commerces.promotions', PromoComerCtrl);
 router.apiResource('events.promotions', PromoEventCtrl);
 router.apiResource('commerces.events', EventComerCtrl);
 router.apiResource('inscriptions', InsCtrl);
 router.get('/promotions/:id', PromoCtrl.getPromotionsAllShow)
 router.apiResource('promotions', PromoCtrl, fileUpload.single('image'));
 router.apiResource('usuario_comercios', UsuComerCtrl);
+router.get('/commerces/:id/promotions', PromoCtrl.getPromotionsByCommerce)
 router.get('/user_promo/:id/promotions', UsuPromoCtrl.getPromoUsedByUser);
 router.get('/user_promo/:id/promotions/:nid', UsuPromoCtrl.thisPromoExist);
 router.post('/user_promo/promotions', UsuPromoCtrl.store);
