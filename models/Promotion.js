@@ -1,5 +1,6 @@
 /* Modelo */
 const { sequelize, Sequelize } = require('./db');
+const Event=require('../models/Event')
 
 const Promotion = sequelize.define(
   'promotions',
