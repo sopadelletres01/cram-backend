@@ -19,6 +19,10 @@ const Inscription = sequelize.define("inscriptions",
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 134
+    },
+    date: {
+      type: Sequelize.DATE,
+      allowNull: true,
     }
   },
   {
